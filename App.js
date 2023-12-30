@@ -6,12 +6,10 @@
  */
 
 import React from 'react';
-import { View } from 'react-native';
-import Splash from './srs/screens/splash';
+import DogAge from './srs/screens/dogAge';
+import DogGender from './srs/screens/dogGender';
 
 const App = () => {
-  return(
-    <Splash />
-  )
-  };
+  return <DogGender />;
+};
 export default App;

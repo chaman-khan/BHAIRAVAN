@@ -1,131 +1,150 @@
-import React from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
-import CodeInput from "react-native-confirmation-code-input";
-import PrimaryButton from "../common/components/PrimaryButton";
-import colors from "../res/colors";
-import { useNavigation } from "@react-navigation/native";
+import React from 'react';
+import {View, Text, ScrollView, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import CodeInput from 'react-native-confirmation-code-input';
+import {useNavigation} from '@react-navigation/native';
 
 const Verify_Screen = () => {
-    return(
-        <View style={{ flex: 1 }}>
+  return (
+    <View style={{flex: 1}}>
       <ScrollView
-        style={{ backgroundColor: colors["yellow.200"] }}
+        style={{backgroundColor: '#F7DC9C'}}
         contentContainerStyle={{
-          alignItems: "center",
+          alignItems: 'center',
           paddingTop: 100,
-        }}
-      >
+        }}>
         <Image
           style={{
-            alignSelf: "flex-start",
-            position: "absolute",
+            alignSelf: 'flex-start',
+            position: 'absolute',
+            marginTop: 40
             // height: 113,
             // width: 140,
           }}
-          source={require("../res/images/pngs/footprint_small.png")}
+          source={require('../../assets/images/footPrint.png')}
         />
         <Text
           style={{
             fontSize: 24,
-            fontWeight: "700",
-            color: colors["brown.900"],
-            fontFamily: "Unbounded",
+            fontWeight: '700',
+            color: '#3A2A28',
+            fontFamily: 'Unbounded',
             marginVertical: 10,
-          }}
-        >
+          }}>
           VERIFICATION CODE
         </Text>
+        <View style={{width: '90%', alignSelf: 'center'}}>
         <Text
           style={{
+            width: '70%',
             fontSize: 12,
-            color: colors["brown.900"],
-            fontWeight: "400",
-            fontFamily: "Unbounded",
+            color: '#3A2A28',
+            fontWeight: '400',
+            fontFamily: 'Unbounded',
             paddingHorizontal: 20,
-          }}
-        >
+            alignSelf: 'flex-start'
+          }}>
           A verification code has been sent to your phone number.
         </Text>
-        <View style={{ height: 50 }}></View>
+        </View>
+        <View style={{height: 50}}></View>
         <CodeInput
           // ref={codeRef}
           // secureTextEntry
-          activeColor={colors["brown.900"]}
-          inactiveColor={colors["brown.200"]}
+          activeColor={'#3A2A28'}
+          inactiveColor={'#937E5F'}
           autoFocus={true}
           keyboardType="numeric"
           codeLength={4}
           className="border-circle"
           size={45}
           disableFullscreenUI={true}
-          onFulfill={(isValid) => {
-            console.log("isValid", isValid);
+          onFulfill={isValid => {
+            console.log('isValid', isValid);
           }}
-          containerStyle={{ marginVertical: 56 }}
+          containerStyle={{marginVertical: 56}}
           codeInputStyle={{
             borderWidth: 1,
-            borderColor: colors["brown.900"],
+            borderColor: '#3A2A28',
             fontSize: 24,
             borderRadius: 6,
+            width: '20%',
             height: 56,
-            fontFamily: "Unbounded",
+            fontFamily: 'Unbounded',
           }}
         />
 
         {/* <Link href={{ pathname: "AddOwner" }} asChild> */}
-        <TouchableOpacity onPress={() => navigation.navigate("AddOwner")}>
-          <PrimaryButton title="Confirm" />
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('AddOwner')}
+          style={styles.btn}>
+          <Text
+            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+            Confirm
+          </Text>
         </TouchableOpacity>
         {/* </Link> */}
 
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             padding: 16,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <Text
             style={{
               fontSize: 12,
-              fontWeight: "400",
-              color: colors["brown.900"],
-              fontFamily: "Unbounded",
-            }}
-          >
+              fontWeight: '400',
+              color: '#3A2A28',
+              fontFamily: 'Unbounded',
+            }}>
             Didn’t receive the code?
           </Text>
           <Text
             style={{
               fontSize: 12,
-              fontWeight: "800",
-              color: colors["brown.900"],
-              fontFamily: "Unbounded",
-            }}
-          >
-            {" "}
+              fontWeight: '800',
+              color: '#3A2A28',
+              fontFamily: 'Unbounded',
+            }}>
             Resend
           </Text>
           <Text
             style={{
               fontSize: 12,
-              fontWeight: "400",
-              color: colors["brown.900"],
-              fontFamily: "Unbounded",
-            }}
-          >
-            {" "}
+              fontWeight: '400',
+              color: '#3A2A28',
+              fontFamily: 'Unbounded',
+            }}>
+            {' '}
             (45s)
           </Text>
         </View>
       </ScrollView>
       <Image
-        style={{ alignSelf: "center", position: "absolute", top: 650, width: '50%', height: 160 }}
-        source={require("../../assets/images/footPrint.png")}
+        style={{
+          alignSelf: 'center',
+          position: 'absolute',
+          top: 650,
+          width: '50%',
+          height: 160,
+        }}
+        source={require('../../assets/images/footPrint.png')}
       />
     </View>
-    )
-}
+  );
+};
 
-export default Verify_Screen
+const styles = StyleSheet.create({
+  btn: {
+    width: '85%',
+    height: 61,
+    alignSelf: 'center',
+    backgroundColor: '#ECAC50',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 106
+  }
+})
+export default Verify_Screen;

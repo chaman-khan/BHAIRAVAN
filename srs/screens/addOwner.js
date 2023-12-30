@@ -10,37 +10,46 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import PrimaryButton from '../common/components/PrimaryButton';
-import {RootStackScreenProps} from '../common/types';
-import colors from '../res/colors';
+import {theme} from '../assets/constants/theme';
 const AddOwner = () => {
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Image
+        <TouchableOpacity
+          activeOpacity={1}
           style={{
-            width: 100,
-            alignSelf: 'flex-end',
-            position: 'absolute',
-            top: 160,
-          }}
-          source={require('../assets/images/footPrint.png')}
-        />
+            width: '90%',
+            alignSelf: 'center',
+            marginBottom: 40,
+            marginTop: 20,
+          }}>
+          <Text style={styles.back}>Back</Text>
+        </TouchableOpacity>
+        <View style={{width: '100%', alignSelf: 'center'}}>
+          <Image
+            style={{
+              width: 100,
+              height: 100,
+              alignSelf: 'center',
+            }}
+            source={require('../assets/images/footPrint.png')}
+          />
+        </View>
 
         <Text
           style={{
             fontFamily: 'Unbounded',
             fontSize: 18,
-            color: colors['brown.900'],
+            color: theme.colors.brown900,
             fontWeight: '600',
-            marginTop: 150,
+            marginTop: 50,
           }}>
           Dog Owner Name?
         </Text>
 
         <View
           style={{
-            borderBottomColor: colors['brown.900'],
+            borderBottomColor: theme.colors.brown900,
             borderBottomWidth: 4,
             marginVertical: 20,
             alignItems: 'center',
@@ -51,7 +60,7 @@ const AddOwner = () => {
               width: 230,
               fontSize: 14,
               padding: 10,
-              color: colors['brown.900'],
+              color: theme.colors.brown900,
               textAlign: 'center',
             }}
           />
@@ -61,7 +70,7 @@ const AddOwner = () => {
           style={{
             fontFamily: 'Unbounded',
             fontSize: 18,
-            color: colors['brown.900'],
+            color: theme.colors.brown900,
             fontWeight: '600',
             marginTop: 50,
           }}>
@@ -70,7 +79,7 @@ const AddOwner = () => {
 
         <View
           style={{
-            borderBottomColor: colors['brown.900'],
+            borderBottomColor: theme.colors.brown900,
             borderBottomWidth: 4,
             marginVertical: 20,
             alignItems: 'center',
@@ -81,7 +90,7 @@ const AddOwner = () => {
               width: 230,
               fontSize: 14,
               padding: 10,
-              color: colors['brown.900'],
+              color: theme.colors.brown900,
               textAlign: 'center',
             }}
           />
@@ -89,16 +98,25 @@ const AddOwner = () => {
 
         <View style={{height: 20}}></View>
         {/* <Link href={{ pathname: "AddPicture" }} asChild> */}
-        <TouchableOpacity onPress={() => navigation.navigate('AddPicture')}>
-          <PrimaryButton title="Next" />
+        <TouchableOpacity
+          onPress={() => navigation.navigate('AddPicture')}
+          style={styles.btn}>
+          <Text
+            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+            Next
+          </Text>
         </TouchableOpacity>
         {/* </Link> */}
 
         <View style={{height: 20}}></View>
         {/* <Link href={{ pathname: "Perference" }} asChild> */}
         <TouchableOpacity
-          onPress={() => navigation.navigate('Perference', {value: 'nodog'})}>
-          <PrimaryButton title="Don't have a dog?" />
+          onPress={() => navigation.navigate('Perference', {value: 'nodog'})}
+          style={styles.btn}>
+          <Text
+            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+            Don't have a dog?
+          </Text>
         </TouchableOpacity>
         {/* </Link> */}
       </ScrollView>
@@ -117,9 +135,24 @@ const AddOwner = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors['yellow.200'],
+    backgroundColor: theme.colors.yellow200,
     flex: 1,
     alignItems: 'center',
+  },
+  btn: {
+    width: '85%',
+    height: 61,
+    alignSelf: 'center',
+    backgroundColor: '#ECAC50',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 106,
+  },
+  back: {
+    color: '#3A2A28',
+    fontSize: 15,
+    fontFamily: 'Unbounded',
+    alignSelf: 'flex-end',
   },
 });
 

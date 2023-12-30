@@ -1,117 +1,87 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    TextInput,
-    Pressable,
-    ScrollView,
-    TouchableOpacity,
-  } from "react-native";
-  
-  import PrimaryButton from "../common/components/PrimaryButton";
-  import colors from "../res/colors";
-  import { RootStackScreenProps } from "../common/types";
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import {theme} from '../assets/constants/theme';
 
 const DogGender = () => {
+  const [male, setMale] = useState(false);
+  const [female, setFemale] = useState(false);
+
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text
-          style={{
-            fontSize: 24,
-            color: colors['brown.900'],
-            fontWeight: '600',
-            marginTop: 80,
-            fontFamily: 'Unbounded',
-          }}>
-          How old is your dog?
-        </Text>
+        <TouchableOpacity activeOpacity={1} style={styles.back}>
+          <Text style={styles.backTxt}>Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.mainTxt}>What is the dog's gender?</Text>
 
-        <Text
-          style={{
-            textAlign: 'center',
-            paddingHorizontal: 22,
-            fontSize: 13,
-            color: colors['brown.900'],
-            fontWeight: '600',
-            marginTop: 20,
-            fontFamily: 'Unbounded',
-          }}>
-          Depending on the age, we wil advise the best individual plan for
-          traning and walking activities
-        </Text>
+        <Text style={styles.txt}>Select dog's gender</Text>
 
-        <View style={{flexDirection: 'row', marginTop: 120}}>
-          <View
-            style={{
-              borderBottomColor: colors['brown.900'],
-              borderBottomWidth: 2,
-              marginVertical: 20,
-              alignItems: 'center',
-              marginHorizontal: 22,
-            }}>
-            <TextInput
+        <View style={styles.imgs}>
+          <Image
+            source={require('../assets/images/leftLogo.png')}
+            style={{width: '30%', position: 'absolute', left: 0}}
+          />
+          <Image
+            source={require('../assets/images/regLogo.png')}
+            style={{marginLeft: 20}}
+          />
+          <Image
+            source={require('../assets/images/rightLogo.png')}
+            style={{width: '30%', position: 'absolute', right: 0}}
+          />
+        </View>
+        {/* <Image
+          style={{marginTop: 10, height: 130, width: 220}}
+          source={require('../res/images/pngs/footprint_group.png')}
+        /> */}
+
+        <View style={{flexDirection: 'row', margin: 60}}>
+          <View style={{flexDirection: 'row', margin: 30}}>
+            <TouchableOpacity
+              activeOpacity={1}
               style={{
-                fontFamily: 'Unbounded',
-                width: 50,
-                fontSize: 14,
-                padding: 10,
-                color: colors['brown.900'],
-                textAlign: 'center',
+                ...styles.select,
+                backgroundColor: male ? '#ECAC50' : '#F7DC9C',
               }}
-            />
-          </View>
-          <View
-            style={{
-              borderBottomColor: colors['brown.900'],
-              borderBottomWidth: 2,
-              marginHorizontal: 30,
-              marginVertical: 20,
-              alignItems: 'center',
-            }}>
-            <TextInput
+              onPress={() => {
+                setMale(true);
+                setFemale(false);
+              }}>
+              <FontAwesome name={'venus'} color={'black'} size={50} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={1}
               style={{
-                fontFamily: 'Unbounded',
-                width: 50,
-                fontSize: 14,
-                padding: 10,
-                color: colors['brown.900'],
-                textAlign: 'center',
-                marginRight: 10,
+                ...styles.select,
+                backgroundColor: female ? '#ECAC50' : '#F7DC9C',
               }}
-            />
+              onPress={() => {
+                setMale(false);
+                setFemale(true);
+              }}>
+              <FontAwesome name={'mars'} color={'black'} size={50} />
+            </TouchableOpacity>
           </View>
         </View>
 
-        <View style={{flexDirection: 'row', margin: 50}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Perference', {value: ''})}
+          style={styles.btn}>
           <Text
-            style={{
-              fontFamily: 'Unbounded',
-              fontSize: 13,
-              color: colors['brown.900'],
-              fontWeight: '600',
-              marginHorizontal: 20,
-              marginTop: -65,
-            }}>
-            Year (s)
+            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+            Next
           </Text>
-
-          <Text
-            style={{
-              fontFamily: 'Unbounded',
-              fontSize: 13,
-              color: colors['brown.900'],
-              fontWeight: '600',
-              marginHorizontal: 25,
-              marginTop: -65,
-            }}>
-            Month (s)
-          </Text>
-        </View>
-
-        <TouchableOpacity onPress={() => navigation.navigate('DogAge')}>
-          <PrimaryButton title="Next" />
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -121,9 +91,63 @@ const DogGender = () => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    backgroundColor: colors['yellow.200'],
+    backgroundColor: theme.colors.yellow200,
     flex: 1,
     alignItems: 'center',
+  },
+  btn: {
+    width: '85%',
+    height: 61,
+    alignSelf: 'center',
+    backgroundColor: '#ECAC50',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 106,
+  },
+  select: {
+    width: 130,
+    height: 130,
+    paddingLeft: 45,
+    paddingTop: 30,
+    borderRadius: 15,
+    marginTop: 15,
+    marginHorizontal: 10,
+    borderWidth: 2,
+  },
+  back: {
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 20,
+    fontWeight: '500'
+  },
+  backTxt: {
+    color: '#3A2A28',
+    fontSize: 15,
+    fontFamily: 'Unbounded',
+    alignSelf: 'flex-end',
+  },
+  mainTxt: {
+    fontFamily: 'Unbounded',
+    fontSize: 20,
+    color: theme.colors.brown900,
+    fontWeight: '700',
+    marginTop: 100,
+    marginRight: 0,
+  },
+  imgs: {
+    flexDirection: 'row',
+    height: 175,
+    width: '70%',
+    alignSelf: 'center',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  txt: {
+    fontFamily: 'Unbounded',
+    fontSize: 13,
+    color: theme.colors.brown900,
+    fontWeight: '600',
+    marginTop: 13,
   },
 });
 

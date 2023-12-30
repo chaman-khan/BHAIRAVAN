@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    Pressable,
-    ScrollView,
-    TouchableOpacity,
-  } from "react-native";
-  import colors from "../res/colors";
-  import { RootStackScreenProps } from "../common/types";
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import colors from '../res/colors';
+import {RootStackScreenProps} from '../common/types';
 
 const Setting = () => {
   return (
@@ -18,7 +18,7 @@ const Setting = () => {
         <View
           style={{
             height: 175,
-            backgroundColor: colors['brown.900'],
+            backgroundColor: theme.colors.brown900,
             width: 350,
             marginTop: 40,
           }}>
@@ -70,7 +70,7 @@ const Setting = () => {
         <Text
           style={{
             fontSize: 16,
-            color: colors['brown.900'],
+            color: theme.colors.brown900,
             fontWeight: '600',
             marginRight: 150,
             marginTop: 90,
@@ -80,7 +80,7 @@ const Setting = () => {
 
         <View
           style={{
-            borderBottomColor: colors['brown.900'],
+            borderBottomColor: theme.colors.brown900,
             borderBottomWidth: 1,
             marginVertical: 20,
             alignItems: 'center',
@@ -90,7 +90,7 @@ const Setting = () => {
               width: 310,
               fontSize: 14,
               padding: 10,
-              color: colors['brown.900'],
+              color: theme.colors.brown900,
               textAlign: 'center',
               marginTop: -10,
             }}
@@ -100,7 +100,7 @@ const Setting = () => {
         <Text
           style={{
             fontSize: 16,
-            color: colors['brown.900'],
+            color: theme.colors.brown900,
             fontWeight: '600',
             marginRight: 170,
             marginTop: 70,
@@ -110,7 +110,7 @@ const Setting = () => {
 
         <View
           style={{
-            borderBottomColor: colors['brown.900'],
+            borderBottomColor: theme.colors.brown900,
             borderBottomWidth: 1,
             marginVertical: 20,
             alignItems: 'center',
@@ -120,7 +120,7 @@ const Setting = () => {
               width: 310,
               fontSize: 14,
               padding: 10,
-              color: colors['brown.900'],
+              color: theme.colors.brown900,
               textAlign: 'center',
               marginTop: -10,
             }}

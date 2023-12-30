@@ -1,91 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    Image,
-    Pressable,
-    TouchableOpacity,
-    ScrollView,
-  } from "react-native";
-  
-  import PrimaryButton from "../common/components/PrimaryButton";
-  import FontAwesome from "react-native-vector-icons/FontAwesome";
-  import colors from "../res/colors";
-  import { RootStackScreenProps } from "../common/types";
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Pressable,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import {theme} from '../assets/constants/theme';
 
 const DogAge = () => {
+  const [years, setYears] = useState('');
+  const [months, setMonths] = useState('');
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text
-          style={{
-            fontFamily: 'Unbounded',
-            fontSize: 20,
-            color: colors['brown.900'],
-            fontWeight: '600',
-            marginTop: 100,
-            marginRight: 0,
-          }}>
-          What is the dog's gender?
+        <TouchableOpacity activeOpacity={1} style={styles.back}>
+          <Text style={styles.backTxt}>Back</Text>
+        </TouchableOpacity>
+        <Text style={styles.mainTxt}>How old is your dog?</Text>
+
+        <Text style={styles.txt}>
+          Depending on the age, we wil advise the best individual plan for
+          traning and walking activities
         </Text>
 
-        <Text
-          style={{
-            fontFamily: 'Unbounded',
-            fontSize: 13,
-            color: colors['brown.900'],
-            fontWeight: '600',
-            marginTop: 13,
-          }}>
-          Select dog's gender
-        </Text>
-
-        <View style={{flexDirection: 'row', height: 175, width: '100%', alignItems: 'flex-end', justifyContent: 'center'}}>
-            <Image source={require('../assets/images/leftLogo.png')} />
-            <Image source={require('../assets/images/logo.png')} />
-            <Image source={require('../assets/images/rightLogo.png')} />
-        </View>
-        {/* <Image
-          style={{marginTop: 10, height: 130, width: 220}}
-          source={require('../res/images/pngs/footprint_group.png')}
-        /> */}
-
-        <View style={{flexDirection: 'row', margin: 60}}>
-          <View style={{flexDirection: 'row', margin: 30}}>
-            <TouchableOpacity
-              style={{
-                width: 130,
-                height: 130,
-                paddingLeft: 45,
-                paddingTop: 30,
-                borderRadius: 15,
-                marginTop: 15,
-                marginHorizontal: 10,
-                borderWidth: 2,
-              }}>
-              <FontAwesome name={'venus'} color={'black'} size={50} />
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                width: 130,
-                height: 130,
-                paddingLeft: 45,
-                paddingTop: 30,
-                borderRadius: 15,
-                marginTop: 15,
-                marginHorizontal: 10,
-                borderWidth: 2,
-              }}>
-              <FontAwesome name={'mars'} color={'black'} size={50} />
-            </TouchableOpacity>
+        <View style={{flexDirection: 'row', marginTop: 120}}>
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.inputView}>
+              <TextInput style={styles.input} />
+            </View>
+            <Text>Year (s)</Text>
+          </View>
+          <View style={{alignItems: 'center'}}>
+            <View style={styles.inputView}>
+              <TextInput style={styles.input} />
+            </View>
+            <Text>Month (s)</Text>
           </View>
         </View>
 
+        <View style={{flexDirection: 'row', margin: 50}}></View>
+
         <TouchableOpacity
-          onPress={() => navigation.navigate('Perference', {value: ''})}>
-          <PrimaryButton title="Next" />
+          // onPress={() => navigation.navigate('DogAge')}
+          style={styles.btn}>
+          <Text
+            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+            Next
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -93,12 +57,72 @@ const DogAge = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      paddingHorizontal: 20,
-      backgroundColor: colors["yellow.200"],
-      flex: 1,
-      alignItems: "center",
-    },
-  });
+  container: {
+    paddingHorizontal: 20,
+    backgroundColor: theme.colors.yellow200,
+    flex: 1,
+    alignItems: 'center',
+  },
+  btn: {
+    width: '85%',
+    height: 61,
+    alignSelf: 'center',
+    backgroundColor: '#ECAC50',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 106,
+  },
+  mainTxt: {
+    fontSize: 24,
+    color: theme.colors.brown900,
+    fontWeight: '700',
+    marginTop: 80,
+    fontFamily: 'Unbounded',
+  },
+  txt: {
+    width: '90%',
+    textAlign: 'center',
+    paddingHorizontal: 22,
+    fontSize: 13,
+    color: theme.colors.brown900,
+    fontWeight: '600',
+    marginTop: 20,
+    fontFamily: 'Unbounded',
+  },
+  input: {
+    fontFamily: 'Unbounded',
+    width: 50,
+    fontSize: 14,
+    padding: 10,
+    color: theme.colors.brown900,
+    textAlign: 'center',
+  },
+  inputView: {
+    borderBottomColor: theme.colors.brown900,
+    borderBottomWidth: 2,
+    marginVertical: 20,
+    alignItems: 'center',
+    marginHorizontal: 22,
+  },
+  date: {
+    fontFamily: 'Unbounded',
+    fontSize: 13,
+    color: theme.colors.brown900,
+    fontWeight: '600',
+    marginHorizontal: 20,
+    marginTop: -65,
+  },
+  back: {
+    width: '90%',
+    alignSelf: 'center',
+    marginTop: 20,
+  },
+  backTxt: {
+    color: '#3A2A28',
+    fontSize: 15,
+    fontFamily: 'Unbounded',
+    alignSelf: 'flex-end',
+  },
+});
 
 export default DogAge;
