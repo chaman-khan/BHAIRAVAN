@@ -6,10 +6,11 @@
  */
 
 import React from 'react';
-import DogAge from './srs/screens/dogAge';
-import DogGender from './srs/screens/dogGender';
+import DogBreed from './srs/screens/dogBreed';
+import { Text } from 'react-native';
+import Setting from './srs/screens/setting';
 
 const App = () => {
-  return <DogGender />;
+  return <Setting />;
 };
 export default App;

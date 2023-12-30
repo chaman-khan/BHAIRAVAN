@@ -54,7 +54,7 @@ const DogGender = () => {
                 backgroundColor: male ? '#ECAC50' : '#F7DC9C',
               }}
               onPress={() => {
-                setMale(true);
+                setMale(!male);
                 setFemale(false);
               }}>
               <FontAwesome name={'venus'} color={'black'} size={50} />
@@ -68,7 +68,7 @@ const DogGender = () => {
               }}
               onPress={() => {
                 setMale(false);
-                setFemale(true);
+                setFemale(!female);
               }}>
               <FontAwesome name={'mars'} color={'black'} size={50} />
             </TouchableOpacity>
