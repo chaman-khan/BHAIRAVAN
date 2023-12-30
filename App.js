@@ -6,11 +6,9 @@
  */
 
 import React from 'react';
-import DogBreed from './srs/screens/dogBreed';
-import { Text } from 'react-native';
-import Setting from './srs/screens/setting';
+import Home from './srs/screens/home';
 
 const App = () => {
-  return <Setting />;
+  return <Home />;
 };
 export default App;
