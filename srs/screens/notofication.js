@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
-const Home = ({navigation}) => {
+const Notification = ({navigation}) => {
   const [showSetting, setShowSetting] = useState(false);
 
   const Row = ({image, text}) => (
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Notification;

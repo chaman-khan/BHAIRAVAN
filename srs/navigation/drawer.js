@@ -61,45 +61,45 @@ export default function Drawer1({navigation}) {
     <NavigationContainer>
       <Drawer.Navigator
         screenOptions={{
-          drawerStyle: {
-            width: '80%',
-          },
-          headerTintColor: '#3A2A28',
-          headerStyle: {
-            backgroundColor: theme.colors.yellow200,
-            height: 100,
-            borderBottomColor: '#3A2A28',
-            borderBottomWidth: 2,
-          },
-          headerRight: () => (
-            <View
-              style={{
-                marginRight: 20,
-              }}>
-              <TouchableOpacity onPress={() => setShowSetting(!showSetting)}
-                style={{
-                  backgroundColor: '#ECAC50',
-                  borderRadius: 30,
-                  padding: 10,
-                  borderWidth: 1,
-                }}>
-                <Image
-                  source={require('../assets/images/blackFoot.png')}
-                  style={{width: 28, height: 28}}
-                />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  color: '#3A2A28',
-                  fontSize: 12,
-                  fontFamily: 'Unbounded',
-                  alignSelf: 'center',
-                }}>
-                Profile
-              </Text>
-            </View>
-          ),
-          // headerShown: false,
+          // drawerStyle: {
+          //   width: '80%',
+          // },
+          // headerTintColor: '#3A2A28',
+          // headerStyle: {
+          //   backgroundColor: theme.colors.yellow200,
+          //   height: 100,
+          //   borderBottomColor: '#3A2A28',
+          //   borderBottomWidth: 2,
+          // },
+          // headerRight: () => (
+          //   <View
+          //     style={{
+          //       marginRight: 20,
+          //     }}>
+          //     <TouchableOpacity onPress={() => setShowSetting(!showSetting)}
+          //       style={{
+          //         backgroundColor: '#ECAC50',
+          //         borderRadius: 30,
+          //         padding: 10,
+          //         borderWidth: 1,
+          //       }}>
+          //       <Image
+          //         source={require('../assets/images/blackFoot.png')}
+          //         style={{width: 28, height: 28}}
+          //       />
+          //     </TouchableOpacity>
+          //     <Text
+          //       style={{
+          //         color: '#3A2A28',
+          //         fontSize: 12,
+          //         fontFamily: 'Unbounded',
+          //         alignSelf: 'center',
+          //       }}>
+          //       Profile
+          //     </Text>
+          //   </View>
+          // ),
+          headerShown: false,
         }}
         drawerContent={({navigation}) => <DrawerMenu navigation={navigation} />}
         initialRouteName="Home">
@@ -108,7 +108,7 @@ export default function Drawer1({navigation}) {
             title: ' ',
           }}
           name="Home"
-          component={() => <Home showSetting={showSetting} />}
+          component={BottomTab}
         />
       </Drawer.Navigator>
     </NavigationContainer>
