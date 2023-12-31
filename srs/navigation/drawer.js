@@ -10,7 +10,6 @@ const Drawer = createDrawerNavigator();
 
 export default function Drawer1({navigation}) {
 
-  const [showSetting, setShowSetting] = React.useState(false);
   const DrawerMenu = ({navigation}) => {
     return (
       <View style={{backgroundColor: theme.colors.yellow200, flex: 1}}>

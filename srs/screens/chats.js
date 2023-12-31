@@ -1,40 +1,56 @@
 import React from 'react';
-import {FlatList, Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Dimensions, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
-const Chats = () => {
+const {width, height} = Dimensions.get('screen');
+const Chats = ({navigation}) => {
   const DATA = [
     {
       id: 1,
-      name: Amelia,
+      name: 'Amelia',
       image: require('../assets/images/user1.png'),
     },
     {
       id: 2,
-      name: James,
+      name: 'James',
       image: require('../assets/images/user2.png'),
     },
     {
       id: 3,
-      name: Clara,
+      name: 'Clara',
       image: require('../assets/images/user3.png'),
     },
     {
       id: 4,
-      name: Emily,
+      name: 'Emily',
+      image: require('../assets/images/user4.png'),
+    },
+    {
+      id: 4,
+      name: 'Emily',
+      image: require('../assets/images/user4.png'),
+    },
+    {
+      id: 4,
+      name: 'Emily',
+      image: require('../assets/images/user4.png'),
+    },
+    {
+      id: 4,
+      name: 'Emily',
       image: require('../assets/images/user4.png'),
     },
   ];
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.item}>
+      <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate('ChatDetail', {item})} style={styles.item}>
         <Image source={item.image} />
         <Text>{item.name}</Text>
-      </View>
+      </TouchableOpacity>
     );
   };
   return (
-    <View style={{flex: 1, backgroundColor: '#ECAC50'}}>
+    <View style={{flex: 1, backgroundColor: '#F7DC9C'}}>
       <View style={styles.topBar}>
         <Text style={{color: '#3A2A28', fontSize: 15, fontWeight: '500'}}>
           Back
@@ -58,7 +74,7 @@ const Chats = () => {
           style={{color: 'black'}}
         />
       </View>
-      <View>
+      <View style={{height: height - height /3, marginBottom: 50}}>
         <FlatList
           data={DATA}
           keyExtractor={item => item.id}
@@ -103,12 +119,15 @@ const styles = StyleSheet.create({
   input: {
     width: '85%',
     alignSelf: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 52,
     backgroundColor: 'rgba(58, 42, 40, 0.18)',
     borderRadius: 18,
     paddingHorizontal: 15,
     gap: 10,
-    marginBottom: 10,
+    marginVertical: 10,
+
   },
   item: {
     width: '100%',

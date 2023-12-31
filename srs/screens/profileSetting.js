@@ -8,6 +8,7 @@ import {
   Image,
   TextInput,
 } from 'react-native';
+import { theme } from '../assets/constants/theme';
 
 const ProfileSetting = () => {
   return (

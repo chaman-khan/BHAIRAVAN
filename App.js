@@ -6,9 +6,9 @@
  */
 import 'react-native-gesture-handler';
 import React from 'react';
-import Drawer1 from './srs/navigation/drawer';
+import MainNav from './srs/navigation/mainNav';
 
 const App = () => {
-  return <Drawer1 />;
+  return <MainNav />;
 };
 export default App;
