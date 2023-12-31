@@ -4,11 +4,11 @@
  *
  * @format
  */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import Home from './srs/screens/home';
+import Drawer1 from './srs/navigation/drawer';
 
 const App = () => {
-  return <Home />;
+  return <Drawer1 />;
 };
 export default App;
