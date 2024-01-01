@@ -12,14 +12,14 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theme} from '../assets/constants/theme';
 
-const DogGender = () => {
+const DogGender = ({navigation}) => {
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
 
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity activeOpacity={1} style={styles.back}>
+        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
           <Text style={styles.backTxt}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.mainTxt}>What is the dog's gender?</Text>
@@ -57,7 +57,7 @@ const DogGender = () => {
                 setMale(!male);
                 setFemale(false);
               }}>
-              <FontAwesome name={'venus'} color={'black'} size={50} />
+              <Image source={require('../assets/images/male.png')} />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -70,13 +70,13 @@ const DogGender = () => {
                 setMale(false);
                 setFemale(!female);
               }}>
-              <FontAwesome name={'mars'} color={'black'} size={50} />
+              <Image source={require('../assets/images/female.png')} />
             </TouchableOpacity>
           </View>
         </View>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate('Perference', {value: ''})}
+          onPress={() => navigation.navigate('DogBreed')}
           style={styles.btn}>
           <Text
             style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
   select: {
     width: 130,
     height: 130,
-    paddingLeft: 45,
-    paddingTop: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 15,
     marginTop: 15,
     marginHorizontal: 10,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignSelf: 'center',
     marginTop: 20,
-    fontWeight: '500'
+    fontWeight: '500',
   },
   backTxt: {
     color: '#3A2A28',

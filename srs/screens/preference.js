@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 
-const Preference = () => {
+const Preference = ({navigation}) => {
   const [play, setPlay] = useState(false);
   const [adopt, setAdopt] = useState(false);
   const [mate, setMate] = useState(false);
@@ -21,7 +21,7 @@ const Preference = () => {
           source={require('../assets/images/topTop.png')}
           style={{position: 'absolute', left: 0}}
         />
-        <TouchableOpacity activeOpacity={1} style={styles.back}>
+        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
           <Text style={styles.backTxt}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.mainTxt}>Preference</Text>
@@ -87,7 +87,7 @@ const Preference = () => {
         </View>
         <Image source={require('../assets/images/nextTop.png')} style={{marginTop: 50}} />
         <TouchableOpacity
-          onPress={() => navigation.navigate('Perference', {value: ''})}
+          onPress={() => navigation.navigate('Drawer')}
           style={styles.btn}>
           <Text
             style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>

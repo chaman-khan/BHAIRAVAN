@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 const {width, height} = Dimensions.get('screen');
-const Favourites = () => {
+const Favourites = ({navigation}) => {
   const DATA = [
     {
       id: 1,
@@ -109,7 +109,9 @@ const Favourites = () => {
   return (
     <View style={{flex: 1, backgroundColor: '#F7DC9C'}}>
       <View style={styles.topBar}>
-        <Text style={styles.backbtn}>Back</Text>
+        <TouchableOpacity activeOpacity={1} onPress={() => navigation.goBack()}>
+          <Text style={styles.backbtn}>Back</Text>
+        </TouchableOpacity>
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 20}}>
           <Image source={require('../assets/images/heart.png')} />
           <Text
@@ -173,7 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ECAC50',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 22
+    borderRadius: 22,
   },
 });
 export default Favourites;

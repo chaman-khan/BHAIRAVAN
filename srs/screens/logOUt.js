@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 import {TouchEventType} from 'react-native-gesture-handler/lib/typescript/TouchEventType';
-import { useFocusEffect } from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 const LogOut = ({navigation}) => {
   const [showSetting, setShowSetting] = useState(true);
 
@@ -52,12 +52,18 @@ const LogOut = ({navigation}) => {
             <Text style={styles.logoutTxt}>Log Out?</Text>
             <Text style={styles.smallTxt}>Are you sure want to log out?</Text>
             <View style={styles.mdlbtns}>
-              <TouchableOpacity style={styles.modelbtn} activeOpacity={1} onPress={() => setShowSetting(false)}>
+              <TouchableOpacity
+                style={styles.modelbtn}
+                activeOpacity={1}
+                onPress={() => setShowSetting(false)}>
                 <Text style={{color: '#3A2A28', fontWeight: '600'}}>
                   cancel
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.modelbtn} activeOpacity={1} onPress={() => setShowSetting(false)}>
+              <TouchableOpacity
+                style={styles.modelbtn}
+                activeOpacity={1}
+                onPress={() => setShowSetting(false)}>
                 <Text style={{color: '#3A2A28', fontWeight: '600'}}>
                   log out
                 </Text>
@@ -73,9 +79,24 @@ const LogOut = ({navigation}) => {
             style={{width: 230, height: 230}}
           />
         </View>
-        <Row image={require('../assets/images/heart.png')} text={'Likes'} />
-        <Row image={require('../assets/images/matches.png')} text={'Matches'} />
-        <Row image={require('../assets/images/chat.png')} text={'Chats'} />
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Favourites')}>
+          <Row image={require('../assets/images/heart.png')} text={'Likes'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Matches')}>
+          <Row
+            image={require('../assets/images/matches.png')}
+            text={'Matches'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Chats')}>
+          <Row image={require('../assets/images/chat.png')} text={'Chats'} />
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

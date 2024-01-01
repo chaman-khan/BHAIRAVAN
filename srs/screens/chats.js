@@ -25,17 +25,17 @@ const Chats = ({navigation}) => {
       image: require('../assets/images/user4.png'),
     },
     {
-      id: 4,
+      id: 5,
       name: 'Emily',
       image: require('../assets/images/user4.png'),
     },
     {
-      id: 4,
+      id: 6,
       name: 'Emily',
       image: require('../assets/images/user4.png'),
     },
     {
-      id: 4,
+      id: 7,
       name: 'Emily',
       image: require('../assets/images/user4.png'),
     },

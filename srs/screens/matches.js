@@ -5,10 +5,11 @@ import {
   Image,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 const {width, height} = Dimensions.get('screen');
-const Matches = () => {
+const Matches = ({navigation}) => {
   const DATA = [
     {
       id: 1,
@@ -92,10 +93,18 @@ const Matches = () => {
   return (
     <View style={{flex: 1, backgroundColor: '#F7DC9C'}}>
       <View style={styles.topBar}>
-        <Text style={styles.backbtn}>Back</Text>
+        <TouchableOpacity activeOpacity={1} onPress={() => navigation.goBack()}>
+          <Text style={styles.backbtn}>Back</Text>
+        </TouchableOpacity>
         <View style={{flexDirection: 'row', alignItems: 'center', gap: 20}}>
           <Image source={require('../assets/images/matches.png')} />
-          <Text style={{color: '#3A2A28', fontSize: 22, fontWeight: '600', fontFamily: 'Unbounded'}}>
+          <Text
+            style={{
+              color: '#3A2A28',
+              fontSize: 22,
+              fontWeight: '600',
+              fontFamily: 'Unbounded',
+            }}>
             Matches
           </Text>
         </View>

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 
-const DogBreed = () => {
+const DogBreed = ({navigation}) => {
   const [mixedBreedSelected, setMixedBreedSelected] = useState(false);
   const [pureBreedSelected, setPureBreedSelected] = useState(false);
   const [championBreedSelected, setChampionBreedSelected] = useState(false);
@@ -18,7 +18,7 @@ const DogBreed = () => {
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity activeOpacity={1} style={styles.back}>
+        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
           <Text style={styles.backTxt}>Back</Text>
         </TouchableOpacity>
         <Image
@@ -98,7 +98,7 @@ const DogBreed = () => {
             style={{alignSelf: 'flex-end', marginTop: 60}}
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate('Perference', {value: ''})}
+            onPress={() => navigation.navigate('Preference')}
             style={styles.btn}>
             <Text
               style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>

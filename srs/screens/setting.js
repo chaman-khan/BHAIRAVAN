@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 
-const Setting = () => {
+const Setting = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>

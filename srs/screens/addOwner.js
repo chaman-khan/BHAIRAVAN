@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import {theme} from '../assets/constants/theme';
-const AddOwner = () => {
+const AddOwner = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -22,7 +22,7 @@ const AddOwner = () => {
             alignSelf: 'center',
             marginBottom: 40,
             marginTop: 20,
-          }}>
+          }} onPress={() => navigation.goBack()}>
           <Text style={styles.back}>Back</Text>
         </TouchableOpacity>
         <View style={{width: '100%', alignSelf: 'center'}}>
@@ -111,7 +111,7 @@ const AddOwner = () => {
         <View style={{height: 20}}></View>
         {/* <Link href={{ pathname: "Perference" }} asChild> */}
         <TouchableOpacity
-          onPress={() => navigation.navigate('Perference', {value: 'nodog'})}
+          onPress={() => navigation.navigate('Preference')}
           style={styles.btn}>
           <Text
             style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>

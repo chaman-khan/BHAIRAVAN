@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -12,45 +12,69 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {RootStackScreenProps} from '../common/types';
 import {theme} from '../assets/constants/theme';
+import ImagePicker from 'react-native-image-crop-picker';
 
-const AddPicture = () => {
+const AddPicture = ({navigation}) => {
+  const [source, setSource] = useState(null);
+  const [source1, setSource1] = useState(null);
+  const gallery = () => {
+    ImagePicker.openPicker({}).then(images => {
+      console.log(images);
+      setSource(images.path);
+    });
+  };
+  const gallery1 = () => {
+    ImagePicker.openPicker({}).then(images => {
+      console.log(images);
+      setSource1(images.path);
+    });
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity activeOpacity={1} style={styles.back}>
+        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
           <Text style={styles.backTxt}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.main}>Add Picture</Text>
 
         <View style={{width: '40%'}}>
-          <Text style={styles.textAlign}>1. Owner and Dog</Text>
+          <Text style={styles.txt}>1. Owner and Dog</Text>
         </View>
 
-        <View style={styles.camera}>
-          <Image
-            source={require('../assets/images/camera.png')}
-            tintColor={theme.colors.yellow900}
-            style={{width: 30, height: 30}}
-          />
-        </View>
+        <TouchableOpacity
+          style={styles.camera}
+          onPress={gallery}>
+          {source == null ? (
+            <Image source={require('../assets/images/camera.png')} />
+          ) : (
+            <Image
+              source={{uri: source}}
+              style={{width: '100%', height: '100%', borderRadius: 15}}
+            />
+          )}
+        </TouchableOpacity>
 
         <View style={{width: '40%'}}>
           <Text style={styles.txt}>2. Only Dog</Text>
         </View>
 
-        <View style={styles.camera}>
-          <Image
-            source={require('../assets/images/camera.png')}
-            tintColor={theme.colors.yellow900}
-            style={{width: 30, height: 30}}
-          />
-          {/* <FontAwesome name={'camera'} color={'#999'} size={30} /> */}
-        </View>
+        <TouchableOpacity
+          style={styles.camera}
+          onPress={gallery1}>
+          {source1 == null ? (
+            <Image source={require('../assets/images/camera.png')} />
+          ) : (
+            <Image
+              source={{uri: source1}}
+              style={{width: '100%', height: '100%', borderRadius: 15}}
+            />
+          )}
+        </TouchableOpacity>
 
         <View style={{height: 20, marginTop: 40}}></View>
 
         <TouchableOpacity
-          // onPress={() => navigation.navigate('AddGender')}
+          onPress={() => navigation.navigate('DogGender')}
           style={styles.btn}>
           <Text
             style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>

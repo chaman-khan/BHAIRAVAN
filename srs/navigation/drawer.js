@@ -5,10 +5,18 @@ import BottomTab from './bottomTab';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {theme} from '../assets/constants/theme';
 import Home from '../screens/home';
+import ProfileSetting from '../screens/profileSetting';
+import Setting from '../screens/setting';
+import Chats from '../screens/chats';
+import ChatDetail from '../screens/chatDetail';
+import Matches from '../screens/matches';
+import Favourites from '../screens/favourites';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const Drawer = createDrawerNavigator();
 
-export default function Drawer1({navigation}) {
+export default function Drawere({navigation}) {
+  const Stack = createNativeStackNavigator();
 
   const DrawerMenu = ({navigation}) => {
     return (
@@ -57,7 +65,7 @@ export default function Drawer1({navigation}) {
     );
   };
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <Drawer.Navigator
         screenOptions={{
           // drawerStyle: {
@@ -101,14 +109,20 @@ export default function Drawer1({navigation}) {
           headerShown: false,
         }}
         drawerContent={({navigation}) => <DrawerMenu navigation={navigation} />}
-        initialRouteName="Home">
+        initialRouteName="HomeTab">
         <Drawer.Screen
           options={{
             title: ' ',
           }}
-          name="Home"
+          name="HomeTab"
           component={BottomTab}
         />
+        <Drawer.Screen name="ProfileSetting" component={ProfileSetting} />
+        <Drawer.Screen name="Setting" component={Setting} />
+        <Drawer.Screen name="Chats" component={Chats} />
+        <Drawer.Screen name="ChatDetail" component={ChatDetail} />
+        <Drawer.Screen name="Matches" component={Matches} />
+        <Drawer.Screen name="Favourites" component={Favourites} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

@@ -14,7 +14,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {RootStackScreenProps} from '../common/types';
 const countries = ['India', 'Egypt', 'Canada', 'Australia', 'Ireland'];
 
-const Registration = () => {
+const Registration = ({navigation}) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -42,7 +42,10 @@ const Registration = () => {
               defaultButtonText=" "
               renderDropdownIcon={isOpened => {
                 return (
-                  <Image source={require('../../assets/images/down.png')} tintColor={'#444'} />
+                  <Image
+                    source={require('../../assets/images/down.png')}
+                    tintColor={'#444'}
+                  />
                   // <FontAwesome
                   //   name={isOpened ? 'chevron-up' : 'chevron-down'}
                   //   color={'#444'}
@@ -86,7 +89,7 @@ const Registration = () => {
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('Otp')}
+            onPress={() => navigation.navigate('Verify_Screen')}
             style={{
               backgroundColor: '#ECAC50',
               borderRadius: 20,

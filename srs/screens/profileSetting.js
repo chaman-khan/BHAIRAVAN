@@ -10,11 +10,11 @@ import {
 } from 'react-native';
 import { theme } from '../assets/constants/theme';
 
-const ProfileSetting = () => {
+const ProfileSetting = ({navigation}) => {
   return (
-    <View>
+    <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity activeOpacity={1} style={styles.back}>
+        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
           <Text style={styles.backTxt}>Back</Text>
         </TouchableOpacity>
         <View style={styles.header}>

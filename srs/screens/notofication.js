@@ -49,7 +49,8 @@ const Notification = ({navigation}) => {
           <View style={styles.btns}>
             <TouchableOpacity
               style={styles.touch}
-              onPress={() => setShowSetting(false)}>
+              onPress={() => {setShowSetting(false);
+              navigation.navigate('ProfileSetting')}}>
               <Image source={require('../assets/images/profile.png')} />
               <Text style={styles.txt}>Profile Settings</Text>
             </TouchableOpacity>
@@ -69,9 +70,24 @@ const Notification = ({navigation}) => {
             style={{width: 230, height: 230}}
           />
         </View>
-        <Row image={require('../assets/images/heart.png')} text={'Likes'} />
-        <Row image={require('../assets/images/matches.png')} text={'Matches'} />
-        <Row image={require('../assets/images/chat.png')} text={'Chats'} />
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Favourites')}>
+          <Row image={require('../assets/images/heart.png')} text={'Likes'} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Matches')}>
+          <Row
+            image={require('../assets/images/matches.png')}
+            text={'Matches'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Chats')}>
+          <Row image={require('../assets/images/chat.png')} text={'Chats'} />
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

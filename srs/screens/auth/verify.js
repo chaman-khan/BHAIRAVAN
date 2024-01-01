@@ -3,7 +3,7 @@ import {View, Text, ScrollView, Image, TouchableOpacity, StyleSheet} from 'react
 import CodeInput from 'react-native-confirmation-code-input';
 import {useNavigation} from '@react-navigation/native';
 
-const Verify_Screen = () => {
+const Verify_Screen = ({navigation}) => {
   return (
     <View style={{flex: 1}}>
       <ScrollView
