@@ -85,7 +85,9 @@ const Home = ({navigation}) => {
             text={'Matches'}
           />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate('Chats')} >
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.navigate('Chatsack')}>
           <Row image={require('../assets/images/chat.png')} text={'Chats'} />
         </TouchableOpacity>
       </ScrollView>

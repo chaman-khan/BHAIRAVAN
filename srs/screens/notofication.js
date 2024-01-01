@@ -49,8 +49,10 @@ const Notification = ({navigation}) => {
           <View style={styles.btns}>
             <TouchableOpacity
               style={styles.touch}
-              onPress={() => {setShowSetting(false);
-              navigation.navigate('ProfileSetting')}}>
+              onPress={() => {
+                setShowSetting(false);
+                navigation.navigate('ProfileSetting');
+              }}>
               <Image source={require('../assets/images/profile.png')} />
               <Text style={styles.txt}>Profile Settings</Text>
             </TouchableOpacity>
@@ -85,7 +87,7 @@ const Notification = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => navigation.navigate('Chats')}>
+          onPress={() => navigation.navigate('Chatsack')}>
           <Row image={require('../assets/images/chat.png')} text={'Chats'} />
         </TouchableOpacity>
       </ScrollView>

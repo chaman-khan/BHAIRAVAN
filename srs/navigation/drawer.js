@@ -12,6 +12,7 @@ import ChatDetail from '../screens/chatDetail';
 import Matches from '../screens/matches';
 import Favourites from '../screens/favourites';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Chatstack from './chatStack';
 
 const Drawer = createDrawerNavigator();
 
@@ -119,8 +120,8 @@ export default function Drawere({navigation}) {
         />
         <Drawer.Screen name="ProfileSetting" component={ProfileSetting} />
         <Drawer.Screen name="Setting" component={Setting} />
-        <Drawer.Screen name="Chats" component={Chats} />
-        <Drawer.Screen name="ChatDetail" component={ChatDetail} />
+        <Drawer.Screen name="Chatstack" component={Chatstack} />
+
         <Drawer.Screen name="Matches" component={Matches} />
         <Drawer.Screen name="Favourites" component={Favourites} />
       </Drawer.Navigator>

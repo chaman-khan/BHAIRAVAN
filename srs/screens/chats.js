@@ -1,5 +1,14 @@
 import React from 'react';
-import {Dimensions, FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const {width, height} = Dimensions.get('screen');
 const Chats = ({navigation}) => {
@@ -43,7 +52,15 @@ const Chats = ({navigation}) => {
 
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity activeOpacity={1} onPress={() => navigation.navigate('ChatDetail', {item})} style={styles.item}>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={() =>
+          navigation.navigate('Chatstack', {
+            screen: 'ChatDetail',
+            params: {item},
+          })
+        }
+        style={styles.item}>
         <Image source={item.image} />
         <Text>{item.name}</Text>
       </TouchableOpacity>
@@ -74,7 +91,7 @@ const Chats = ({navigation}) => {
           style={{color: 'black'}}
         />
       </View>
-      <View style={{height: height - height /3, marginBottom: 50}}>
+      <View style={{height: height - height / 3, marginBottom: 50}}>
         <FlatList
           data={DATA}
           keyExtractor={item => item.id}
@@ -127,7 +144,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     gap: 10,
     marginVertical: 10,
-
   },
   item: {
     width: '100%',
