@@ -60,43 +60,6 @@ export const verifyAccount = (data, handleSuccess, handleError) => {
     }
   };
 };
-export const submitCertificates = (data, handleSuccess, handleError) => {
-  return async dispatch => {
-    try {
-      var myHeaders = new Headers();
-      myHeaders.append('Content-Type', 'application/json');
-      myHeaders.append('Accept', 'application/json');
-
-      var raw = JSON.stringify(data);
-      console.log(
-        '==rawwwwwwwwwwwwwwwwwwwww==================================',
-      );
-      console.log(raw);
-      console.log(
-        '=========================rawwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww===========',
-      );
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: data,
-        redirect: 'follow',
-      };
-
-      fetch(`${baseUrl}/user/submit-certificate`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          handleSuccess(result);
-        })
-        .catch(error => {
-          handleError(error);
-        });
-    } catch (err) {
-      dispatch(authLoad(false));
-      console.log(err);
-      handleError(err);
-    }
-  };
-};
 
 export const loginUser = (data, handleSuccess, handleError) => {
   return async dispatch => {
@@ -218,32 +181,6 @@ export const resetPassword = (data, handleSuccess, handleError) => {
   };
 };
 
-export const loginManager = (data, successLogin) => {
-  return async dispatch => {
-    try {
-      var myHeaders = new Headers();
-      myHeaders.append('Accept', 'application/json');
-      myHeaders.append('Content-Type', 'application/json');
-
-      var raw = JSON.stringify(data);
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow',
-      };
-
-      fetch(`${baseUrl}/api/user/login`, requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-    } catch (err) {
-      dispatch(authLoad(false));
-      console.log(err);
-    }
-  };
-};
 
 export const emailVerify = (data, onSuccess) => {
   return async dispatch => {
