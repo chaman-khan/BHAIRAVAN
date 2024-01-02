@@ -299,14 +299,6 @@ export const checkInternet = data => {
   };
 };
 
-const saveToken = data => {
-  return {
-    type: types.SAVE_TOKEN,
-    payload: data,
-  };
-};
-
-
 
 
 
