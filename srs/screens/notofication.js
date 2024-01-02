@@ -87,7 +87,7 @@ const Notification = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => navigation.navigate('Chatsack')}>
+          onPress={() => navigation.navigate('Chatstack')}>
           <Row image={require('../assets/images/chat.png')} text={'Chats'} />
         </TouchableOpacity>
       </ScrollView>

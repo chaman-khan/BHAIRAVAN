@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Chats from '../screens/chats';
 import ChatDetail from '../screens/chatDetail';
 
-function Chatstack() {
+function Chatstack({navigation}) {
   const Stack = createNativeStackNavigator();
 
   return (

@@ -1,4 +1,3 @@
-import {useRoute} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
 
@@ -34,7 +33,7 @@ const ChatDetail = ({navigation, route}) => {
           <ProfileImage />
           <View style={styles.send}>
             <Text style={{color: '#000000', fontWeight: '500'}}>
-              Hi, {item.name}{' '}
+              Hi, {item.name}
             </Text>
           </View>
         </View>
