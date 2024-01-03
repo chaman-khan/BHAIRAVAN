@@ -31,7 +31,9 @@ const AddPicture = ({navigation}) => {
   };
   return (
     <View style={{flex: 1}}>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView>
+        <View style={styles.container}>
+          
         <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
           <Text style={styles.backTxt}>Back</Text>
         </TouchableOpacity>
@@ -75,12 +77,14 @@ const AddPicture = ({navigation}) => {
 
         <TouchableOpacity
           onPress={() => navigation.navigate('DogGender')}
-          style={styles.btn}>
+          style={{...styles.btn, marginBottom: 20}}>
           <Text
             style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
             Next
           </Text>
         </TouchableOpacity>
+      
+        </View>
       </ScrollView>
     </View>
   );

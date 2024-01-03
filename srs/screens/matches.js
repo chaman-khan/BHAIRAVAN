@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -8,6 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {PanGestureHandler, State} from 'react-native-gesture-handler';
 const {width, height} = Dimensions.get('screen');
 const Matches = ({navigation}) => {
   const DATA = [
@@ -69,25 +71,41 @@ const Matches = ({navigation}) => {
     },
   ];
 
+  const handleSwipe = (event, item) => {
+    if (event.nativeEvent.state === State.END) {
+      if (event.nativeEvent.translationX > 0) {
+        // Right swipe
+        Alert.alert('Right Swipe', `Droped ${item.name} now`);
+      } else {
+        // Left swipe
+        Alert.alert('Left Swipe', `${item.name} now in your likeS`);
+      }
+    }
+  };
+
   const renderItem = ({item}) => {
     return (
-      <View style={styles.item}>
-        <Image
-          source={item.image}
-          style={{width: 98, height: 99, borderRadius: 17}}
-        />
-        <View>
-          <Text style={{color: '#000', fontWeight: '500', fontSize: 11}}>
-            {item.name}
-          </Text>
-          <Text style={{color: '#000', fontSize: 6, fontWeight: '300'}}>
-            . {item.one}
-          </Text>
-          <Text style={{color: '#000', fontSize: 6, fontWeight: '300'}}>
-            . {item.second}
-          </Text>
+      <PanGestureHandler
+        onHandlerStateChange={(event) => handleSwipe(event, item)}
+      >
+        <View style={styles.item}>
+          <Image
+            source={item.image}
+            style={{width: 98, height: 99, borderRadius: 17}}
+          />
+          <View>
+            <Text style={{color: '#000', fontWeight: '500', fontSize: 11}}>
+              {item.name}
+            </Text>
+            <Text style={{color: '#000', fontSize: 6, fontWeight: '300'}}>
+              . {item.one}
+            </Text>
+            <Text style={{color: '#000', fontSize: 6, fontWeight: '300'}}>
+              . {item.second}
+            </Text>
+          </View>
         </View>
-      </View>
+      </PanGestureHandler>
     );
   };
   return (

@@ -18,71 +18,76 @@ const DogGender = ({navigation}) => {
 
   return (
     <View style={{flex: 1}}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
-          <Text style={styles.backTxt}>Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.mainTxt}>What is the dog's gender?</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.back}
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.backTxt}>Back</Text>
+          </TouchableOpacity>
+          <Text style={styles.mainTxt}>What is the dog's gender?</Text>
 
-        <Text style={styles.txt}>Select dog's gender</Text>
+          <Text style={styles.txt}>Select dog's gender</Text>
 
-        <View style={styles.imgs}>
-          <Image
-            source={require('../assets/images/leftLogo.png')}
-            style={{width: '30%', position: 'absolute', left: 0}}
-          />
-          <Image
-            source={require('../assets/images/regLogo.png')}
-            style={{marginLeft: 20}}
-          />
-          <Image
-            source={require('../assets/images/rightLogo.png')}
-            style={{width: '30%', position: 'absolute', right: 0}}
-          />
-        </View>
-        {/* <Image
+          <View style={styles.imgs}>
+            <Image
+              source={require('../assets/images/leftLogo.png')}
+              style={{width: '30%', position: 'absolute', left: 0}}
+            />
+            <Image
+              source={require('../assets/images/regLogo.png')}
+              style={{marginLeft: 20}}
+            />
+            <Image
+              source={require('../assets/images/rightLogo.png')}
+              style={{width: '30%', position: 'absolute', right: 0}}
+            />
+          </View>
+          {/* <Image
           style={{marginTop: 10, height: 130, width: 220}}
           source={require('../res/images/pngs/footprint_group.png')}
         /> */}
 
-        <View style={{flexDirection: 'row', margin: 60}}>
-          <View style={{flexDirection: 'row', margin: 30}}>
-            <TouchableOpacity
-              activeOpacity={1}
-              style={{
-                ...styles.select,
-                backgroundColor: male ? '#ECAC50' : '#F7DC9C',
-              }}
-              onPress={() => {
-                setMale(!male);
-                setFemale(false);
-              }}>
-              <Image source={require('../assets/images/male.png')} />
-            </TouchableOpacity>
+          <View style={{flexDirection: 'row', margin: 60}}>
+            <View style={{flexDirection: 'row', margin: 30}}>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
+                  ...styles.select,
+                  backgroundColor: male ? '#ECAC50' : '#F7DC9C',
+                }}
+                onPress={() => {
+                  setMale(!male);
+                  setFemale(false);
+                }}>
+                <Image source={require('../assets/images/male.png')} />
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              activeOpacity={1}
-              style={{
-                ...styles.select,
-                backgroundColor: female ? '#ECAC50' : '#F7DC9C',
-              }}
-              onPress={() => {
-                setMale(false);
-                setFemale(!female);
-              }}>
-              <Image source={require('../assets/images/female.png')} />
-            </TouchableOpacity>
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
+                  ...styles.select,
+                  backgroundColor: female ? '#ECAC50' : '#F7DC9C',
+                }}
+                onPress={() => {
+                  setMale(false);
+                  setFemale(!female);
+                }}>
+                <Image source={require('../assets/images/female.png')} />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('DogBreed')}
-          style={styles.btn}>
-          <Text
-            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
-            Next
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('DogBreed')}
+            style={{...styles.btn, marginBottom: 20}}>
+            <Text
+              style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+              Next
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </View>
   );

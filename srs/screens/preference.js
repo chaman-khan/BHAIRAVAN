@@ -16,84 +16,104 @@ const Preference = ({navigation}) => {
   const [missing, setMissin] = useState(false);
   return (
     <View style={{flex: 1}}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Image
-          source={require('../assets/images/topTop.png')}
-          style={{position: 'absolute', left: 0}}
-        />
-        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
-          <Text style={styles.backTxt}>Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.mainTxt}>Preference</Text>
-        <View style={styles.line}>
+      <ScrollView>
+        <View style={styles.container}>
+          <Image
+            source={require('../assets/images/topTop.png')}
+            style={{position: 'absolute', left: 0}}
+          />
           <TouchableOpacity
-            style={{
-              ...styles.view,
-              backgroundColor: play ? '#ECAC50' : 'transparent',
-            }}
             activeOpacity={1}
-            onPress={() => {
-              setPlay(!play);
-              setMate(false);
-              setAdopt(false);
-              setMissin(false);
-            }}>
-            <Image source={require('../assets/images/play.png')} />
+            style={styles.back}
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.backTxt}>Back</Text>
           </TouchableOpacity>
+          <Text style={styles.mainTxt}>Preference</Text>
+          <View style={styles.line}>
+            <TouchableOpacity
+              style={{
+                ...styles.view,
+                backgroundColor: play ? '#ECAC50' : 'transparent',
+              }}
+              activeOpacity={1}
+              onPress={() => {
+                setPlay(!play);
+                setMate(false);
+                setAdopt(false);
+                setMissin(false);
+              }}>
+              <Image
+                source={require('../assets/images/play.png')}
+                style={{width: '100%', height: '100%'}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                ...styles.view,
+                backgroundColor: mate ? '#ECAC50' : 'transparent',
+              }}
+              activeOpacity={1}
+              onPress={() => {
+                setPlay(false);
+                setMate(!mate);
+                setAdopt(false);
+                setMissin(false);
+              }}>
+              <Image
+                source={require('../assets/images/mate.png')}
+                style={{width: '90%', height: '90%'}}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.line}>
+            <TouchableOpacity
+              style={{
+                ...styles.view,
+                backgroundColor: missing ? '#ECAC50' : 'transparent',
+              }}
+              activeOpacity={1}
+              onPress={() => {
+                setPlay(false);
+                setMate(false);
+                setAdopt(false);
+                setMissin(!missing);
+              }}>
+              <Image
+                source={require('../assets/images/missing.png')}
+                style={{width: '100%', height: '100%'}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                ...styles.view,
+                backgroundColor: adopt ? '#ECAC50' : 'transparent',
+              }}
+              activeOpacity={1}
+              onPress={() => {
+                setPlay(false);
+                setMate(false);
+                setAdopt(!adopt);
+                setMissin(false);
+              }}>
+              <Image
+                source={require('../assets/images/adopt.png')}
+                style={{width: '90%', height: '90%'}}
+              />
+            </TouchableOpacity>
+          </View>
+          <Image
+            source={require('../assets/images/nextTop.png')}
+            style={{marginTop: 50}}
+          />
           <TouchableOpacity
-            style={{
-              ...styles.view,
-              backgroundColor: mate ? '#ECAC50' : 'transparent',
-            }}
-            activeOpacity={1}
-            onPress={() => {
-              setPlay(false);
-              setMate(!mate);
-              setAdopt(false);
-              setMissin(false);
-            }}>
-            <Image source={require('../assets/images/mate.png')} />
+            onPress={() => navigation.navigate('Drawer')}
+            style={{...styles.btn, marginBottom: 20}}>
+            <Text
+              style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+              Next
+            </Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.line}>
-          <TouchableOpacity
-            style={{
-              ...styles.view,
-              backgroundColor: missing ? '#ECAC50' : 'transparent',
-            }}
-            activeOpacity={1}
-            onPress={() => {
-              setPlay(false);
-              setMate(false);
-              setAdopt(false);
-              setMissin(!missing);
-            }}>
-            <Image source={require('../assets/images/missing.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              ...styles.view,
-              backgroundColor: adopt ? '#ECAC50' : 'transparent',
-            }}
-            activeOpacity={1}
-            onPress={() => {
-              setPlay(false);
-              setMate(false);
-              setAdopt(!adopt);
-              setMissin(false);
-            }}>
-            <Image source={require('../assets/images/adopt.png')} />
-          </TouchableOpacity>
-        </View>
-        <Image source={require('../assets/images/nextTop.png')} style={{marginTop: 50}} />
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Drawer')}
-          style={styles.btn}>
-          <Text
-            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
-            Next
-          </Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   );
@@ -129,6 +149,8 @@ const styles = StyleSheet.create({
     borderColor: '#3A2A28',
     borderWidth: 1,
     borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   line: {
     width: '90%',

@@ -1,8 +1,31 @@
-import React from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import EmojiSelector, {Categories} from 'react-native-emoji-selector';
+
+const {width, height} = Dimensions.get('screen');
 
 const ChatDetail = ({navigation, route}) => {
   const {item} = route.params;
+
+  const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const toggleEmojiPicker = () => {
+    setEmojiPickerVisible(!isEmojiPickerVisible);
+  };
+
+  const onEmojiSelected = emoji => {
+    setMessage(message + emoji);
+  };
 
   const ProfileImage = () => {
     return (
@@ -14,6 +37,7 @@ const ChatDetail = ({navigation, route}) => {
       </View>
     );
   };
+
   return (
     <View style={{flex: 1, backgroundColor: '#F7DC9C'}}>
       <View style={styles.topBar}>
@@ -28,25 +52,27 @@ const ChatDetail = ({navigation, route}) => {
           </View>
         </View>
       </View>
-      <View style={{width: '80%', alignSelf: 'center'}}>
-        <View>
-          <ProfileImage />
-          <View style={styles.send}>
-            <Text style={{color: '#000000', fontWeight: '500'}}>
-              Hi, {item.name}
-            </Text>
+      <ScrollView>
+        <View style={{width: '80%', alignSelf: 'center', height: height}}>
+          <View>
+            <ProfileImage />
+            <View style={styles.send}>
+              <Text style={{color: '#000000', fontWeight: '500'}}>
+                Hi, {item.name}
+              </Text>
+            </View>
+          </View>
+          <View style={{marginTop: 100, width: '80%', alignSelf: 'flex-end'}}>
+            <Image
+              source={item.image}
+              style={{alignSelf: 'flex-end', width: 48, height: 47, zIndex: 2}}
+            />
+            <View style={styles.send1}>
+              <Text style={{color: '#000000', fontWeight: '500'}}>Hello </Text>
+            </View>
           </View>
         </View>
-        <View style={{marginTop: 100, width: '80%', alignSelf: 'flex-end'}}>
-          <Image
-            source={item.image}
-            style={{alignSelf: 'flex-end', width: 48, height: 47, zIndex: 2}}
-          />
-          <View style={styles.send1}>
-            <Text style={{color: '#000000', fontWeight: '500'}}>Hello </Text>
-          </View>
-        </View>
-      </View>
+      </ScrollView>
       <View
         style={{
           width: '100%',
@@ -56,6 +82,8 @@ const ChatDetail = ({navigation, route}) => {
           justifyContent: 'center',
           position: 'absolute',
           bottom: 0,
+          backgroundColor: '#F7DC9C',
+          zIndex: 5,
         }}>
         <View
           style={{
@@ -70,13 +98,28 @@ const ChatDetail = ({navigation, route}) => {
             alignItems: 'center',
             justifyContent: 'space-evenly',
           }}>
-          <Image source={require('../assets/images/emoji.png')} />
-          <TextInput placeholder="Type a message" style={{width: '50%'}} />
+          <TouchableOpacity onPress={toggleEmojiPicker}>
+            <Image source={require('../assets/images/emoji.png')} />
+          </TouchableOpacity>
+          <TextInput
+            placeholder="Type a message"
+            style={{width: '50%'}}
+            value={message}
+            onChangeText={txt => setMessage(txt)}
+          />
           <Image source={require('../assets/images/attach.png')} />
           <Image source={require('../assets/images/voice.png')} />
           <Image source={require('../assets/images/send.png')} />
         </View>
       </View>
+      {isEmojiPickerVisible && (
+        <EmojiSelector
+          onEmojiSelected={onEmojiSelected}
+          showSearchBar={false}
+          showSectionTitles={false}
+          category={Categories.all}
+        />
+      )}
     </View>
   );
 };
