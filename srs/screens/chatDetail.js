@@ -18,14 +18,26 @@ const ChatDetail = ({navigation, route}) => {
 
   const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [message, setMessage] = useState('');
+   const [isEmojiKeyboardVisible, setIsEmojiKeyboardVisible] = useState(false);
 
-  const toggleEmojiPicker = () => {
-    setEmojiPickerVisible(!isEmojiPickerVisible);
+  const handleSend = () => {
+    // Implement your logic to send the message
+    console.log('Sending message:', message);
+    setMessage('');
   };
 
-  const onEmojiSelected = emoji => {
-    setMessage(message + emoji);
+  const toggleEmojiKeyboard = () => {
+    setIsEmojiKeyboardVisible(!isEmojiKeyboardVisible);
+    Keyboard.dismiss();
   };
+
+  // const toggleEmojiPicker = () => {
+  //   setEmojiPickerVisible(!isEmojiPickerVisible);
+  // };
+
+  // const onEmojiSelected = emoji => {
+  //   setMessage(message + emoji);
+  // };
 
   const ProfileImage = () => {
     return (
