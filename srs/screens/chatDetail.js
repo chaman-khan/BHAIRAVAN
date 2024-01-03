@@ -18,7 +18,7 @@ const ChatDetail = ({navigation, route}) => {
 
   const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [message, setMessage] = useState('');
-   const [isEmojiKeyboardVisible, setIsEmojiKeyboardVisible] = useState(false);
+  const [isEmojiKeyboardVisible, setIsEmojiKeyboardVisible] = useState(false);
 
   const handleSend = () => {
     // Implement your logic to send the message
@@ -110,7 +110,7 @@ const ChatDetail = ({navigation, route}) => {
             alignItems: 'center',
             justifyContent: 'space-evenly',
           }}>
-          <TouchableOpacity onPress={toggleEmojiPicker}>
+          <TouchableOpacity onPress={toggleEmojiKeyboard}>
             <Image source={require('../assets/images/emoji.png')} />
           </TouchableOpacity>
           <TextInput
@@ -118,6 +118,7 @@ const ChatDetail = ({navigation, route}) => {
             style={{width: '50%'}}
             value={message}
             onChangeText={txt => setMessage(txt)}
+            keyboardType={isEmojiKeyboardVisible ? 'numeric' : 'default'}
           />
           <Image source={require('../assets/images/attach.png')} />
           <Image source={require('../assets/images/voice.png')} />
