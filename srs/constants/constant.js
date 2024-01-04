@@ -1,1 +1,1 @@
-export const baseUrl = 'https://foodcare.glitch.me/api';
+export const baseUrl = 'https://bhairavan.starwebtek.com/api/app/';
