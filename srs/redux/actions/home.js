@@ -1,7 +1,7 @@
 import * as types from '../actions/types';
-import {baseUrl} from '../../constants/constants';
 import {useSelector} from 'react-redux';
 import {authLoad, loginSuccess} from './auth';
+import { baseUrl } from '../../constants/constant';
 
 export const activeScreen = params => ({
   type: types.ACTIVE_SCREEN,
@@ -41,24 +41,30 @@ export const getAllUserRequests = (data, handleSuccess, handleError) => {
   };
 };
 
-export const NGOgetAcceptedRequests = (data, handleSuccess, handleError) => {
+export const saveData = data => {
+  return {
+    type: types.DATA,
+    payload: data,
+  };
+};
+
+export const addOwner = (token, data, handleSuccess, handleError) => {
   return async dispatch => {
     try {
+      console.log('token');
       var myHeaders = new Headers();
-      myHeaders.append('Authorization', `Bearer ${data.token}`);
-      var raw = '';
+      myHeaders.append('Content-Type', 'application/json');
+      myHeaders.append('Authorization', `Bearer ${token.token.token}`);
 
       var requestOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: myHeaders,
-        body: raw,
+        body: data,
         redirect: 'follow',
       };
-
-      fetch(
-        `${baseUrl}/ngo/getAllNgoUserRequests/${data.data._id}/accepted`,
-        requestOptions,
-      )
+      console.log(requestOptions);
+      console.log(`Bearer ${token.token}`);
+      fetch(`${baseUrl}store-dog-and-owner-name`, requestOptions)
         .then(response => response.json())
         .then(result => {
           handleSuccess(result);
@@ -73,10 +79,93 @@ export const NGOgetAcceptedRequests = (data, handleSuccess, handleError) => {
     }
   };
 };
+export const addPictures = (token, data, handleSuccess, handleError) => {
+  return async dispatch => {
+    try {
+      console.log('token');
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token.token.token}`);
 
-export const saveData = data => {
-  return {
-    type: types.DATA,
-    payload: data,
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: data,
+        redirect: 'follow',
+      };
+      console.log(requestOptions);
+      console.log(`Bearer ${token.token}`);
+      fetch(`${baseUrl}store-dog-and-owner-image`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          handleSuccess(result);
+        })
+        .catch(error => {
+          handleError(error);
+        });
+    } catch (err) {
+      dispatch(authLoad(false));
+      console.log(err);
+      handleError(err);
+    }
+  };
+};
+export const addAge = (token, data, handleSuccess, handleError) => {
+  return async dispatch => {
+    try {
+      console.log('token');
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token.token.token}`);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: data,
+        redirect: 'follow',
+      };
+      console.log(requestOptions);
+      console.log(`Bearer ${token.token}`);
+      fetch(`${baseUrl}store-dog-age`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          handleSuccess(result);
+        })
+        .catch(error => {
+          handleError(error);
+        });
+    } catch (err) {
+      dispatch(authLoad(false));
+      console.log(err);
+      handleError(err);
+    }
+  };
+};
+export const addgender = (token, data, handleSuccess, handleError) => {
+  return async dispatch => {
+    try {
+      console.log('token');
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token.token.token}`);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: data,
+        redirect: 'follow',
+      };
+      console.log(requestOptions);
+      console.log(`Bearer ${token.token}`);
+      fetch(`${baseUrl}store-dog-and-owner-image`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          handleSuccess(result);
+        })
+        .catch(error => {
+          handleError(error);
+        });
+    } catch (err) {
+      dispatch(authLoad(false));
+      console.log(err);
+      handleError(err);
+    }
   };
 };

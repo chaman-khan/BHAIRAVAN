@@ -1,11 +1,21 @@
 import React, {useEffect} from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {authLoad} from '../redux/actions/auth';
 const {height} = Dimensions.get('screen');
 
 const Splash = ({navigation}) => {
+  const {loggedIn, loginData} = useSelector(state => state.auth);
+
+  const dispatch = useDispatch();
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('Registration');
+      dispatch(authLoad(false));
+      if (loggedIn) {
+        navigation.replace('AddOwner');
+      } else {
+        navigation.replace('Registration');
+      }
     }, 3000);
 
     return () => clearTimeout(timer); // Clear the timer when the component unmounts

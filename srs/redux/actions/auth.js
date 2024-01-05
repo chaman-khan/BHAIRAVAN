@@ -15,7 +15,7 @@ export const registerUser = (data, handleSuccess, handleError) => {
         redirect: 'follow',
       };
 
-      fetch(`${baseUrl}/user/register`, requestOptions)
+      fetch(`${baseUrl}register`, requestOptions)
         .then(response => response.json())
         .then(result => {
           handleSuccess(result);
@@ -35,7 +35,6 @@ export const verifyAccount = (data, handleSuccess, handleError) => {
   return async dispatch => {
     try {
       var myHeaders = new Headers();
-      myHeaders.append('Accept', 'application/json');
       myHeaders.append('Content-Type', 'application/json');
       var raw = JSON.stringify(data);
       var requestOptions = {
@@ -45,7 +44,7 @@ export const verifyAccount = (data, handleSuccess, handleError) => {
         redirect: 'follow',
       };
 
-      fetch(`${baseUrl}/user/verify-account`, requestOptions)
+      fetch(`${baseUrl}verify-otp`, requestOptions)
         .then(response => response.json())
         .then(result => {
           handleSuccess(result);

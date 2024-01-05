@@ -6,14 +6,62 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
+import {useDispatch, useSelector} from 'react-redux';
+import { authLoad } from '../redux/actions/auth';
+import { Loading } from '../components/loading';
 
 const Preference = ({navigation}) => {
   const [play, setPlay] = useState(false);
   const [adopt, setAdopt] = useState(false);
   const [mate, setMate] = useState(false);
   const [missing, setMissin] = useState(false);
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
+  const handlePreference = () => {
+    if (play || adopt || mate || missing) {
+      dispatch(authLoad(true));
+
+      var raw = JSON.stringify({
+        preference: play ? 'play' : adopt ? 'adopt' : mate ? 'mate' : 'missing',
+      });
+      console.log('raw');
+      console.log(raw);
+      console.log(loginData);
+      console.log('..................................................');
+      dispatch(addOwner(loginData, raw, onSuccess, onError));
+    } else {
+      Alert.alert('Alert', 'Select Your Gender');
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('Drawer');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView>
@@ -106,7 +154,7 @@ const Preference = ({navigation}) => {
             style={{marginTop: 50}}
           />
           <TouchableOpacity
-            onPress={() => navigation.navigate('Drawer')}
+            onPress={handlePreference}
             style={{...styles.btn, marginBottom: 20}}>
             <Text
               style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
@@ -115,6 +163,7 @@ const Preference = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      <Loading visible={authLoading} />
     </View>
   );
 };

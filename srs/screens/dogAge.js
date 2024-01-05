@@ -7,12 +7,62 @@ import {
   Pressable,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
+import {useDispatch, useSelector} from 'react-redux';
+import {authLoad} from '../redux/actions/auth';
+import {Loading} from '../components/loading';
 
 const DogAge = () => {
-  const [years, setYears] = useState('');
-  const [months, setMonths] = useState('');
+  const [years, setYears] = useState();
+  const [months, setMonths] = useState();
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
+
+  const handleAge = () => {
+    if (!years || !months) {
+      Alert.alert('Alert', 'Give complete YOur Dog Age');
+    } else {
+      dispatch(authLoad(true));
+
+      var raw = JSON.stringify({
+        month: months,
+        year: years,
+      });
+      console.log('raw');
+      console.log(raw);
+      console.log(loginData);
+      console.log('..................................................');
+      dispatch(addOwner(loginData, raw, onSuccess, onError));
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('DogGender');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView contentContainerStyle={styles.container}>
@@ -44,7 +94,7 @@ const DogAge = () => {
         <View style={{flexDirection: 'row', margin: 50}}></View>
 
         <TouchableOpacity
-          // onPress={() => navigation.navigate('DogAge')}
+          onPress={handleAge}
           style={styles.btn}>
           <Text
             style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
@@ -52,6 +102,7 @@ const DogAge = () => {
           </Text>
         </TouchableOpacity>
       </ScrollView>
+      <Loading visible={authLoading} />
     </View>
   );
 };

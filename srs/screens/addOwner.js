@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,71 @@ import {
   Pressable,
   ScrollView,
   TouchableOpacity,
+  Dimensions,
+  Alert,
 } from 'react-native';
 
 import {theme} from '../assets/constants/theme';
+import {useDispatch, useSelector} from 'react-redux';
+import {authLoad} from '../redux/actions/auth';
+import {addOwner} from '../redux/actions/home';
+import { Loading } from '../components/loading';
+
+const {height} = Dimensions.get('screen');
 const AddOwner = ({navigation}) => {
+  const [owner, setOwner] = useState('');
+  const [dog, setDog] = useState('');
+
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
+
+  const handleAdd = () => {
+    if (!dog || !owner) {
+      Alert.alert('Alert', 'Write both Names');
+    } else {
+      dispatch(authLoad(true));
+
+      var raw = JSON.stringify({
+        owner_name: owner,
+        dog_name: dog,
+      });
+      console.log('raw');
+      console.log(raw);
+      console.log(loginData);
+      console.log('..................................................');
+      dispatch(addOwner(loginData, raw, onSuccess, onError));
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('AddPicture');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView>
-        <View style= {styles.container}>
+        <View style={styles.container}>
           <TouchableOpacity
             activeOpacity={1}
             style={{
@@ -65,6 +122,8 @@ const AddOwner = ({navigation}) => {
                 color: theme.colors.brown900,
                 textAlign: 'center',
               }}
+              value={owner}
+              onChangeText={txt => setOwner(txt)}
             />
           </View>
 
@@ -95,14 +154,14 @@ const AddOwner = ({navigation}) => {
                 color: theme.colors.brown900,
                 textAlign: 'center',
               }}
+              value={dog}
+              onChangeText={txt => setDog(txt)}
             />
           </View>
 
           <View style={{height: 20}}></View>
           {/* <Link href={{ pathname: "AddPicture" }} asChild> */}
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AddPicture')}
-            style={styles.btn}>
+          <TouchableOpacity onPress={handleAdd} style={styles.btn}>
             <Text
               style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
               Next
@@ -132,6 +191,7 @@ const AddOwner = ({navigation}) => {
         }}
         source={require('../assets/images/footPrint.png')}
       />
+      <Loading visible={authLoading} />
     </View>
   );
 };
@@ -140,6 +200,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.yellow200,
     flex: 1,
+    height: height,
     alignItems: 'center',
   },
   btn: {

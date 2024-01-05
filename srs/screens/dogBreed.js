@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -8,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
+import {useDispatch, useSelector} from 'react-redux';
 
 const DogBreed = ({navigation}) => {
   const [mixedBreedSelected, setMixedBreedSelected] = useState(false);
@@ -15,6 +17,61 @@ const DogBreed = ({navigation}) => {
   const [championBreedSelected, setChampionBreedSelected] = useState(false);
   const [indieBreedSelected, setIndieBreedSelected] = useState(false);
 
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
+  const handleBreed = () => {
+    if (
+      mixedBreedSelected ||
+      pureBreedSelected ||
+      championBreedSelected ||
+      indieBreedSelected
+    ) {
+      dispatch(authLoad(true));
+
+      var raw = JSON.stringify({
+        breed: mixedBreedSelected
+          ? 'mixedBreedSelected'
+          : pureBreedSelected
+          ? 'pureBreedSelected'
+          : championBreedSelected
+          ? 'championBreedSelected'
+          : 'indieBreedSelected',
+      });
+      console.log('raw');
+      console.log(raw);
+      console.log(loginData);
+      console.log('..................................................');
+      dispatch(addOwner(loginData, raw, onSuccess, onError));
+    } else {
+      Alert.alert('Alert', 'Select Your Gender');
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('Preference');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
   return (
     <View style={{flex: 1}}>
       <ScrollView>
@@ -107,9 +164,7 @@ const DogBreed = ({navigation}) => {
               source={require('../assets/images/rightLogo.png')}
               style={{alignSelf: 'flex-end', marginTop: 30}}
             />
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Preference')}
-              style={styles.btn}>
+            <TouchableOpacity onPress={handleBreed} style={styles.btn}>
               <Text
                 style={{
                   color: '#3A2A28',

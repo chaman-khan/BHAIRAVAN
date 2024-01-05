@@ -7,14 +7,63 @@ import {
   Pressable,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theme} from '../assets/constants/theme';
+import {authLoad} from '../redux/actions/auth';
+import { useDispatch, useSelector } from 'react-redux';
 
 const DogGender = ({navigation}) => {
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
+
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
+
+  const handleGender = () => {
+    if (!male && !female) {
+      Alert.alert('Alert', 'Select Your Gender');
+    } else {
+      dispatch(authLoad(true));
+
+      var raw = JSON.stringify({
+        gender: male ? 'male' : 'female',
+      });
+      console.log('raw');
+      console.log(raw);
+      console.log(loginData);
+      console.log('..................................................');
+      dispatch(addOwner(loginData, raw, onSuccess, onError));
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('DogBreed');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -80,7 +129,7 @@ const DogGender = ({navigation}) => {
           </View>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate('DogBreed')}
+            onPress={handleGender}
             style={{...styles.btn, marginBottom: 20}}>
             <Text
               style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>

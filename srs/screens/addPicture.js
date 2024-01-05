@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,16 +7,23 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Alert,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {RootStackScreenProps} from '../common/types';
 import {theme} from '../assets/constants/theme';
 import ImagePicker from 'react-native-image-crop-picker';
+import {baseUrl} from '../constants/constant';
+import {useDispatch, useSelector} from 'react-redux';
+import {authLoad} from '../redux/actions/auth';
+import {addPictures} from '../redux/actions/home';
 
 const AddPicture = ({navigation}) => {
   const [source, setSource] = useState(null);
   const [source1, setSource1] = useState(null);
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
   const gallery = () => {
     ImagePicker.openPicker({}).then(images => {
       console.log(images);
@@ -29,61 +36,112 @@ const AddPicture = ({navigation}) => {
       setSource1(images.path);
     });
   };
+
+  const uploadImages = async () => {
+    if (!source || !source1) {
+      Alert.alert('Alert', 'Select both images');
+    } else {
+      dispatch(authLoad(true));
+      const formData = new FormData();
+
+      // Add images to formData
+      if (source) {
+        formData.append('owner_image', {
+          uri: source,
+          type: 'image/jpeg', // Adjust type based on your image format
+          name: 'owner_image.jpg', // Adjust the filename as needed
+        });
+      }
+
+      if (source1) {
+        formData.append('dog_image', {
+          uri: source1,
+          type: 'image/jpeg', // Adjust type based on your image format
+          name: 'dog_image.jpg', // Adjust the filename as needed
+        });
+      }
+      dispatch(addPictures(loginData, formData, onSuccess, onError));
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('DogAge');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
+
   return (
     <View style={{flex: 1}}>
       <ScrollView>
         <View style={styles.container}>
-          
-        <TouchableOpacity activeOpacity={1} style={styles.back} onPress={() => navigation.goBack()}>
-          <Text style={styles.backTxt}>Back</Text>
-        </TouchableOpacity>
-        <Text style={styles.main}>Add Picture</Text>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={styles.back}
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.backTxt}>Back</Text>
+          </TouchableOpacity>
+          <Text style={styles.main}>Add Picture</Text>
 
-        <View style={{width: '40%'}}>
-          <Text style={styles.txt}>1. Owner and Dog</Text>
-        </View>
+          <View style={{width: '40%'}}>
+            <Text style={styles.txt}>1. Owner and Dog</Text>
+          </View>
 
-        <TouchableOpacity
-          style={styles.camera}
-          onPress={gallery}>
-          {source == null ? (
-            <Image source={require('../assets/images/camera.png')} />
-          ) : (
-            <Image
-              source={{uri: source}}
-              style={{width: '100%', height: '100%', borderRadius: 15}}
-            />
-          )}
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.camera} onPress={gallery}>
+            {source == null ? (
+              <Image source={require('../assets/images/camera.png')} />
+            ) : (
+              <Image
+                source={{uri: source}}
+                style={{width: '100%', height: '100%', borderRadius: 15}}
+              />
+            )}
+          </TouchableOpacity>
 
-        <View style={{width: '40%'}}>
-          <Text style={styles.txt}>2. Only Dog</Text>
-        </View>
+          <View style={{width: '40%'}}>
+            <Text style={styles.txt}>2. Only Dog</Text>
+          </View>
 
-        <TouchableOpacity
-          style={styles.camera}
-          onPress={gallery1}>
-          {source1 == null ? (
-            <Image source={require('../assets/images/camera.png')} />
-          ) : (
-            <Image
-              source={{uri: source1}}
-              style={{width: '100%', height: '100%', borderRadius: 15}}
-            />
-          )}
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.camera} onPress={gallery1}>
+            {source1 == null ? (
+              <Image source={require('../assets/images/camera.png')} />
+            ) : (
+              <Image
+                source={{uri: source1}}
+                style={{width: '100%', height: '100%', borderRadius: 15}}
+              />
+            )}
+          </TouchableOpacity>
 
-        <View style={{height: 20, marginTop: 40}}></View>
+          <View style={{height: 20, marginTop: 40}}></View>
 
-        <TouchableOpacity
-          onPress={() => navigation.navigate('DogGender')}
-          style={{...styles.btn, marginBottom: 20}}>
-          <Text
-            style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
-            Next
-          </Text>
-        </TouchableOpacity>
-      
+          <TouchableOpacity
+            onPress={uploadImages}
+            style={{...styles.btn, marginBottom: 20}}>
+            <Text
+              style={{color: '#3A2A28', fontFamily: 'Unbounded', fontSize: 16}}>
+              Next
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

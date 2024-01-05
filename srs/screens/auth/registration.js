@@ -8,12 +8,14 @@ import {
   Pressable,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {Country} from 'country-state-city';
 import {theme} from '../../assets/constants/theme';
 import {Dropdown} from 'react-native-element-dropdown';
 import {useDispatch, useSelector} from 'react-redux';
 import {authLoad, registerUser} from '../../redux/actions/auth';
+import { Loading } from '../../components/loading';
 
 const Registration = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -57,10 +59,12 @@ const Registration = ({navigation}) => {
       dispatch(authLoad(true));
 
       var raw = JSON.stringify({
-        phone_code: '92',
-        phone: '33238773743',
+        phone_code: countryCode,
+        phone: Number,
       });
+      console.log('raw');
       console.log(raw);
+      console.log('..................................................');
       dispatch(registerUser(raw, onSuccess, onError));
     }
   };
@@ -68,9 +72,12 @@ const Registration = ({navigation}) => {
   const onSuccess = val => {
     dispatch(authLoad(false));
 
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
     Alert.alert(
-      val.status === 'success' ? 'Success' : 'Error',
-      val.status === 'success'
+      val.status === true ? 'Success' : 'Error',
+      val.status === true
         ? val.message
         : val.message || val.message.message,
       [
@@ -78,7 +85,7 @@ const Registration = ({navigation}) => {
           text: 'OK',
           onPress: () => {
             console.log('OK Pressed');
-            // val.status === 'success' && navigation.navigate('SignupVerify');
+            val.status === true && navigation.navigate('Verify_Screen', {Number});
           },
         },
       ],
@@ -117,131 +124,151 @@ const Registration = ({navigation}) => {
   }, [countryCode]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image
-        style={styles.logo}
-        source={require('../../assets/images/regLogo.png')}
-      />
-      <View style={styles.login_container}>
-        <Text style={styles.register}>Register</Text>
-        <Text style={{width: '100%', height: 2, backgroundColor: '#F7DC9C'}} />
-        <Text style={styles.phone}>Phone Number</Text>
+    <ScrollView>
+      <View style={styles.container}>
         <Image
-          style={{marginBottom: -2}}
-          source={require('../../assets/images/upperArrow.png')}
+          style={styles.logo}
+          source={require('../../assets/images/regLogo.png')}
         />
-        <Text style={{width: '100%', height: 2, backgroundColor: '#F7DC9C'}} />
+        <View style={styles.login_container}>
+          <Text style={styles.register}>Register</Text>
+          <Text
+            style={{width: '100%', height: 2, backgroundColor: '#F7DC9C'}}
+          />
+          <Text style={styles.phone}>Phone Number</Text>
+          <Image
+            style={{marginBottom: -2}}
+            source={require('../../assets/images/upperArrow.png')}
+          />
+          <Text
+            style={{width: '100%', height: 2, backgroundColor: '#F7DC9C'}}
+          />
 
-        <View style={styles.secondary_container}>
-          <Text style={styles.what_is_your_phone}>
-            What is your phone number?
-          </Text>
-
-          <View
-            style={{
-              paddingVertical: 30,
-              flexDirection: 'row',
-              width: '95%',
-              alignSelf: 'center',
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            <Dropdown
-              style={[
-                styles.dropdown1,
-                isFocus && {borderColor: theme.colors.yellow200},
-              ]}
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              // iconStyle={styles.iconStyle}
-              data={countryData}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? 'Country' : '...'}
-              searchPlaceholder="Search..."
-              value={selectedCountry}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
-              onChange={item => {
-                setSelectedCountry(item.value);
-                setCountryCode(item.code);
-                setIsFocus(false);
-              }}
-              renderRightIcon={() => (
-                <Image source={require('../../assets/images/downArrow.png')} />
-              )}
-            />
-            <View style={styles.input}>
-              <TextInput
-                style={{width: '25%', fontSize: 16, color: 'black'}}
-                value={`+${countryCode}`}
-                onChangeText={txt => setCountryCode(txt.replace(/\D/g, ''))}
-                keyboardType="numeric"
-              />
-              <TextInput
-                placeholder="Phone Number"
-                placeholderTextColor={theme.colors.brown900}
-                style={{fontSize: 16, color: theme.colors.brown900}}
-                keyboardType="numeric"
-                value={Number}
-                onChangeText={txt => setNumber(txt)}
-              />
-            </View>
-          </View>
-
-          <View
-            style={{
-              paddingVertical: 30,
-              flexDirection: 'row',
-              width: '95%',
-              alignSelf: 'center',
-              alignItems: 'center',
-              gap: 10,
-            }}>
-            {countryCodeError && <Text style={{color:'red'}}>* Select country please</Text>}
-            {phone_numberError && <Text style={{color:'red'}}>* Write your Contat</Text>}
-          </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Verify_Screen')}
-            style={{
-              backgroundColor: '#ECAC50',
-              borderRadius: 20,
-              paddingHorizontal: 20,
-            }}>
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: '600',
-                padding: 10,
-                color: '#3A2A28',
-                fontFamily: 'Unbounded',
-              }}>
-              SEND CONFIRMATION CODE
+          <View style={styles.secondary_container}>
+            <Text style={styles.what_is_your_phone}>
+              What is your phone number?
             </Text>
-          </TouchableOpacity>
 
-          {/* <Link href={{ pathname: "Otp" }} asChild>
+            <View
+              style={{
+                paddingTop: 30,
+                flexDirection: 'row',
+                width: '95%',
+                alignSelf: 'center',
+                alignItems: 'center',
+                gap: 10,
+              }}>
+              <Dropdown
+                style={[
+                  styles.dropdown1,
+                  isFocus && {borderColor: theme.colors.yellow200},
+                ]}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                // iconStyle={styles.iconStyle}
+                data={countryData}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder={!isFocus ? 'Country' : '...'}
+                searchPlaceholder="Search..."
+                value={selectedCountry}
+                onFocus={() => setIsFocus(true)}
+                onBlur={() => setIsFocus(false)}
+                onChange={item => {
+                  setSelectedCountry(item.value);
+                  setCountryCode(item.code);
+                  setIsFocus(false);
+                }}
+                renderRightIcon={() => (
+                  <Image
+                    source={require('../../assets/images/downArrow.png')}
+                  />
+                )}
+              />
+              <View style={styles.input}>
+                <TextInput
+                  style={{width: '25%', fontSize: 16, color: 'black'}}
+                  value={`+${countryCode}`}
+                  onChangeText={txt => setCountryCode(txt.replace(/\D/g, ''))}
+                  keyboardType="numeric"
+                />
+                <TextInput
+                  placeholder="Phone Number"
+                  placeholderTextColor={theme.colors.brown900}
+                  style={{fontSize: 16, color: theme.colors.brown900}}
+                  keyboardType="numeric"
+                  value={Number}
+                  onChangeText={txt => setNumber(txt)}
+                />
+              </View>
+            </View>
+
+            <View
+              style={{
+                paddingBottom: 30,
+                flexDirection: 'row',
+                width: '95%',
+                alignSelf: 'center',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                gap: 10,
+              }}>
+              <View style={{width: '30%'}}>
+                {countryCodeError && (
+                  <Text style={{color: 'red'}}>* Select country please</Text>
+                )}
+              </View>
+              <View style={{width: '60%'}}>
+                {phone_numberError && (
+                  <Text style={{color: 'red'}}>
+                    * Write your Contact number
+                  </Text>
+                )}
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={handleSignUp}
+              style={{
+                backgroundColor: '#ECAC50',
+                borderRadius: 20,
+                paddingHorizontal: 20,
+              }}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: '600',
+                  padding: 10,
+                  color: '#3A2A28',
+                  fontFamily: 'Unbounded',
+                }}>
+                SEND CONFIRMATION CODE
+              </Text>
+            </TouchableOpacity>
+
+            {/* <Link href={{ pathname: "Otp" }} asChild>
                 <Pressable>
                   <PrimaryButton title=" SEND CONFIRMATION CODE" />
                 </Pressable>
               </Link> */}
 
-          <Text style={styles.singing}>
-            By signing up you agree with Bhairavan
-          </Text>
-          <View style={{flexDirection: 'row'}}>
-            <TouchableOpacity>
-              <Text style={styles.terms}>Terms of Service</Text>
-            </TouchableOpacity>
-            <Text style={styles.of}> of </Text>
-            <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
-              <Text style={styles.terms}>Privacy policy</Text>
-            </TouchableOpacity>
+            <Text style={styles.singing}>
+              By signing up you agree with Bhairavan
+            </Text>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity>
+                <Text style={styles.terms}>Terms of Service</Text>
+              </TouchableOpacity>
+              <Text style={styles.of}> of </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+                <Text style={styles.terms}>Privacy policy</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
+        <Loading visible={authLoading} />
       </View>
     </ScrollView>
   );
