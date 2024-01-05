@@ -1,11 +1,11 @@
+import { baseUrl } from '../../constants/constant';
 import * as types from './types';
-import {apiKey, baseUrl} from '../../constants/constants';
 
 export const registerUser = (data, handleSuccess, handleError) => {
   return async dispatch => {
     try {
       var myHeaders = new Headers();
-      myHeaders.append('Accept', 'application/json');
+      // myHeaders.append('Accept', 'application/json');
       myHeaders.append('Content-Type', 'application/json');
       var raw = JSON.stringify(data);
       var requestOptions = {

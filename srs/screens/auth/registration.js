@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,22 +9,92 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
-import {Country, State, City} from 'country-state-city';
+import {Country} from 'country-state-city';
+import {theme} from '../../assets/constants/theme';
 import {Dropdown} from 'react-native-element-dropdown';
-const countries = ['India', 'Egypt', 'Canada', 'Australia', 'Ireland'];
+import {useDispatch, useSelector} from 'react-redux';
+import {authLoad, registerUser} from '../../redux/actions/auth';
 
 const Registration = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [countryCode, setCountryCode] = useState('');
+  const [Number, setNumber] = useState('');
   const [countryData, setCountryData] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [countries, setCountries] = useState([]);
+
+  const [phone_numberError, setPhone_numberError] = useState(false);
+  const [countryCodeError, setCountryCodeError] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const {authLoading} = useSelector(state => state.auth);
+
+  const handleSignUp = () => {
+    if (!Number) {
+      setPhone_numberError(true);
+    } else {
+      setPhone_numberError(false);
+    }
+    if (!countryCode) {
+      setCountryCodeError(true);
+    } else {
+      setCountryCodeError(false);
+    }
+    if (!Number || !countryCode) {
+      Alert.alert(
+        'Warning',
+        'Please enter complete details',
+        [
+          {
+            text: 'OK',
+            onPress: () => console.log('OK Pressed'),
+          },
+        ],
+        {cancelable: false},
+      );
+    } else {
+      dispatch(authLoad(true));
+
+      var raw = JSON.stringify({
+        phone_code: '92',
+        phone: '33238773743',
+      });
+      console.log(raw);
+      dispatch(registerUser(raw, onSuccess, onError));
+    }
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    Alert.alert(
+      val.status === 'success' ? 'Success' : 'Error',
+      val.status === 'success'
+        ? val.message
+        : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            // val.status === 'success' && navigation.navigate('SignupVerify');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
+
   const fetchCountryData = async () => {
     const countries = Country.getAllCountries();
     setCountries(countries);
     const countryData = countries.map(country => ({
-      label: country.flag,
+      label: country.isoCode + '  ' + country.flag,
       value: country.name,
       code: country.phonecode,
     }));
@@ -45,9 +115,7 @@ const Registration = ({navigation}) => {
       setCountryCode(countryWithCode.phonecode);
     }
   }, [countryCode]);
-  const selectedCountryData = countries.find(
-    country => country.name === selectedCountry,
-  );
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -70,53 +138,31 @@ const Registration = ({navigation}) => {
           </Text>
 
           <View
-            style={{paddingVertical: 30, flexDirection: 'row', width: '100%'}}>
-            {/* <SelectDropdown
-              defaultButtonText=" "
-              renderDropdownIcon={isOpened => {
-                return (
-                  <Image
-                    source={require('../../assets/images/down.png')}
-                    tintColor={'#444'}
-                  />
-                  // <FontAwesome
-                  //   name={isOpened ? 'chevron-up' : 'chevron-down'}
-                  //   color={'#444'}
-                  //   size={18}
-                  // />
-                );
-              }}
-              dropdownStyle={{
-                backgroundColor: '#F7DC9C',
-                borderRadius: 8,
-                borderWidth: 2,
-                borderColor: '#3A2A28',
-                minWidth: 150,
-              }}
-              data={countries}
-              buttonStyle={{
-                padding: 10,
-                marginHorizontal: 10,
-                width: 100,
-                borderRadius: 20,
-                backgroundColor: '#937E5F',
-              }}
-              onSelect={(selectedItem, index) => {
-                console.log(selectedItem, index);
-              }}
-            /> */}
-
+            style={{
+              paddingVertical: 30,
+              flexDirection: 'row',
+              width: '95%',
+              alignSelf: 'center',
+              alignItems: 'center',
+              gap: 10,
+            }}>
             <Dropdown
-              style={[styles.dropdown1, isFocus && {borderColor: 'blue'}]}
+              style={[
+                styles.dropdown1,
+                isFocus && {borderColor: theme.colors.yellow200},
+              ]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              // iconStyle={styles.iconStyle}
               data={countryData}
+              search
               maxHeight={300}
               labelField="label"
               valueField="value"
               placeholder={!isFocus ? 'Country' : '...'}
+              searchPlaceholder="Search..."
               value={selectedCountry}
-              itemTextStyle={styles.DropDown_Item}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
@@ -124,23 +170,40 @@ const Registration = ({navigation}) => {
                 setCountryCode(item.code);
                 setIsFocus(false);
               }}
+              renderRightIcon={() => (
+                <Image source={require('../../assets/images/downArrow.png')} />
+              )}
             />
-
-            <TextInput
-              style={{
-                backgroundColor: '#937E5F',
-                fontSize: 20,
-                height: 50,
-                lineHeight: 50,
-                flex: 1,
-                borderRadius: 15,
-                padding: 10,
-                marginHorizontal: 10,
-                fontFamily: 'Unbounded',
-              }}
-            />
+            <View style={styles.input}>
+              <TextInput
+                style={{width: '25%', fontSize: 16, color: 'black'}}
+                value={`+${countryCode}`}
+                onChangeText={txt => setCountryCode(txt.replace(/\D/g, ''))}
+                keyboardType="numeric"
+              />
+              <TextInput
+                placeholder="Phone Number"
+                placeholderTextColor={theme.colors.brown900}
+                style={{fontSize: 16, color: theme.colors.brown900}}
+                keyboardType="numeric"
+                value={Number}
+                onChangeText={txt => setNumber(txt)}
+              />
+            </View>
           </View>
 
+          <View
+            style={{
+              paddingVertical: 30,
+              flexDirection: 'row',
+              width: '95%',
+              alignSelf: 'center',
+              alignItems: 'center',
+              gap: 10,
+            }}>
+            {countryCodeError && <Text style={{color:'red'}}>* Select country please</Text>}
+            {phone_numberError && <Text style={{color:'red'}}>* Write your Contat</Text>}
+          </View>
           <TouchableOpacity
             onPress={() => navigation.navigate('Verify_Screen')}
             style={{
@@ -161,10 +224,10 @@ const Registration = ({navigation}) => {
           </TouchableOpacity>
 
           {/* <Link href={{ pathname: "Otp" }} asChild>
-            <Pressable>
-              <PrimaryButton title=" SEND CONFIRMATION CODE" />
-            </Pressable>
-          </Link> */}
+                <Pressable>
+                  <PrimaryButton title=" SEND CONFIRMATION CODE" />
+                </Pressable>
+              </Link> */}
 
           <Text style={styles.singing}>
             By signing up you agree with Bhairavan
@@ -264,40 +327,54 @@ const styles = StyleSheet.create({
   dropdown1: {
     width: '35%',
     height: 50,
-    borderColor: theme.colors.grey,
-    borderWidth: 0.3,
-    borderRadius: 6,
-    paddingHorizontal: 17,
+    borderRadius: 30,
+    paddingHorizontal: 15,
+    backgroundColor: theme.colors.brown200,
   },
   dropdown: {
-    width: '45%',
+    width: '100%',
     height: 50,
-    borderColor: theme.colors.grey,
+    borderColor: theme.colors.brown200,
     borderWidth: 0.3,
     borderRadius: 6,
     paddingHorizontal: 30,
   },
   DropDown_Item: {
-    height: responsiveScreenHeight(2),
+    height: 30,
     width: '20%',
-    fontSize: responsiveScreenFontSize(1.6),
+    fontSize: 25,
     fontFamily: 'Poppins',
     color: '#000000',
     fontWeight: '400',
   },
   placeholderStyle: {
     fontFamily: 'Inter',
-    color: '#818181',
+    color: theme.colors.brown900,
     fontSize: 16,
     fontWeight: '400',
   },
   selectedTextStyle: {
     // height:48,
-    width: '91%',
+    width: '81%',
     fontSize: 16,
     fontFamily: 'Inter',
-    color: '#000000',
+    color: theme.colors.brown900,
     fontWeight: '400',
+  },
+  input: {
+    backgroundColor: '#937E5F',
+    flexDirection: 'row',
+    fontSize: 20,
+    height: 50,
+    lineHeight: 50,
+    flex: 1,
+    borderRadius: 35,
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    fontFamily: 'Unbounded',
+  },
+  iconStyle: {
+    color: theme.colors.brown900,
   },
 });
 
