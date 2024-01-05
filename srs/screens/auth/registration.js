@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,11 +10,44 @@ import {
   ScrollView,
 } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {RootStackScreenProps} from '../common/types';
+import {Country, State, City} from 'country-state-city';
+import {Dropdown} from 'react-native-element-dropdown';
 const countries = ['India', 'Egypt', 'Canada', 'Australia', 'Ireland'];
 
 const Registration = ({navigation}) => {
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [countryCode, setCountryCode] = useState('');
+  const [countryData, setCountryData] = useState([]);
+  const [isFocus, setIsFocus] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const fetchCountryData = async () => {
+    const countries = Country.getAllCountries();
+    setCountries(countries);
+    const countryData = countries.map(country => ({
+      label: country.flag,
+      value: country.name,
+      code: country.phonecode,
+    }));
+    setCountryData(countryData);
+  };
+
+  useEffect(() => {
+    fetchCountryData();
+  }, []);
+  useEffect(() => {
+    // Find the country based on the entered country code
+    const countryWithCode = countries.find(
+      country => country.phonecode === countryCode,
+    );
+
+    if (countryWithCode) {
+      setSelectedCountry(countryWithCode.name);
+      setCountryCode(countryWithCode.phonecode);
+    }
+  }, [countryCode]);
+  const selectedCountryData = countries.find(
+    country => country.name === selectedCountry,
+  );
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
@@ -38,7 +71,7 @@ const Registration = ({navigation}) => {
 
           <View
             style={{paddingVertical: 30, flexDirection: 'row', width: '100%'}}>
-            <SelectDropdown
+            {/* <SelectDropdown
               defaultButtonText=" "
               renderDropdownIcon={isOpened => {
                 return (
@@ -70,6 +103,26 @@ const Registration = ({navigation}) => {
               }}
               onSelect={(selectedItem, index) => {
                 console.log(selectedItem, index);
+              }}
+            /> */}
+
+            <Dropdown
+              style={[styles.dropdown1, isFocus && {borderColor: 'blue'}]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              data={countryData}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? 'Country' : '...'}
+              value={selectedCountry}
+              itemTextStyle={styles.DropDown_Item}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setSelectedCountry(item.value);
+                setCountryCode(item.code);
+                setIsFocus(false);
               }}
             />
 
@@ -207,6 +260,44 @@ const styles = StyleSheet.create({
     color: '#ECAC50',
     fontFamily: 'Unbounded',
     justifyContent: 'center',
+  },
+  dropdown1: {
+    width: '35%',
+    height: 50,
+    borderColor: theme.colors.grey,
+    borderWidth: 0.3,
+    borderRadius: 6,
+    paddingHorizontal: 17,
+  },
+  dropdown: {
+    width: '45%',
+    height: 50,
+    borderColor: theme.colors.grey,
+    borderWidth: 0.3,
+    borderRadius: 6,
+    paddingHorizontal: 30,
+  },
+  DropDown_Item: {
+    height: responsiveScreenHeight(2),
+    width: '20%',
+    fontSize: responsiveScreenFontSize(1.6),
+    fontFamily: 'Poppins',
+    color: '#000000',
+    fontWeight: '400',
+  },
+  placeholderStyle: {
+    fontFamily: 'Inter',
+    color: '#818181',
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  selectedTextStyle: {
+    // height:48,
+    width: '91%',
+    fontSize: 16,
+    fontFamily: 'Inter',
+    color: '#000000',
+    fontWeight: '400',
   },
 });
 
