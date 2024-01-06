@@ -10,6 +10,7 @@ import {
 import {theme} from '../assets/constants/theme';
 const Home = ({navigation}) => {
   const [showSetting, setShowSetting] = useState(false);
+  const [showLogOut, setShowLogOut] = useState(false);
 
   const Row = ({image, text}) => (
     <View style={styles.row}>
@@ -63,6 +64,30 @@ const Home = ({navigation}) => {
               <Text style={styles.txt}>Log Out</Text>
             </TouchableOpacity>
           </View>
+          {showLogOut && (
+            <View style={styles.btns1}>
+              <Text style={styles.logoutTxt}>Log Out?</Text>
+              <Text style={styles.smallTxt}>Are you sure want to log out?</Text>
+              <View style={styles.mdlbtns}>
+                <TouchableOpacity
+                  style={styles.modelbtn}
+                  activeOpacity={1}
+                  onPress={() => setShowSetting(false)}>
+                  <Text style={{color: '#3A2A28', fontWeight: '600'}}>
+                    cancel
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modelbtn}
+                  activeOpacity={1}
+                  onPress={() => setShowSetting(false)}>
+                  <Text style={{color: '#3A2A28', fontWeight: '600'}}>
+                    log out
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
         </View>
       )}
       <ScrollView>
@@ -200,6 +225,46 @@ const styles = StyleSheet.create({
     borderBlockColor: '#000',
     borderBottomWidth: 2,
     paddingHorizontal: 20,
+  },
+  btns1: {
+    width: '100%',
+    height: 214,
+    borderColor: '#3A2A28',
+    borderWidth: 4,
+    borderRadius: 12,
+    marginTop: -5,
+    backgroundColor: '#F7DC9C',
+    justifyContent: 'space-evenly',
+    position: 'absolute',
+    zIndex: 5,
+  },
+  modelbtn: {
+    width: '48%',
+    height: 58,
+    backgroundColor: '#ECAC50',
+    borderRadius: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mdlbtns: {
+    width: '90%',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  logoutTxt: {
+    color: '#3A2A28',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: 'Unbounded',
+    textAlign: 'center',
+  },
+  smallTxt: {
+    color: 'rgba(58, 42, 40, 0.79)',
+    fontSize: 13,
+    fontWeight: '400',
+    fontFamily: 'Unbounded',
+    textAlign: 'center',
   },
 });
 

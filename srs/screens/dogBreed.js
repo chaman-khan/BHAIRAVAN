@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
+import { addBreed } from '../redux/actions/home';
 
 const DogBreed = ({navigation}) => {
   const [mixedBreedSelected, setMixedBreedSelected] = useState(false);
@@ -41,7 +42,7 @@ const DogBreed = ({navigation}) => {
       console.log(raw);
       console.log(loginData);
       console.log('..................................................');
-      dispatch(addOwner(loginData, raw, onSuccess, onError));
+      dispatch(addBreed(loginData, raw, onSuccess, onError));
     } else {
       Alert.alert('Alert', 'Select Your Gender');
     }

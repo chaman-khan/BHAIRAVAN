@@ -14,6 +14,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theme} from '../assets/constants/theme';
 import {authLoad} from '../redux/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
+import { addgender } from '../redux/actions/home';
 
 const DogGender = ({navigation}) => {
   const [male, setMale] = useState(false);
@@ -35,7 +36,7 @@ const DogGender = ({navigation}) => {
       console.log(raw);
       console.log(loginData);
       console.log('..................................................');
-      dispatch(addOwner(loginData, raw, onSuccess, onError));
+      dispatch(addgender(loginData, raw, onSuccess, onError));
     }
   };
 

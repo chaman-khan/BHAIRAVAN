@@ -13,6 +13,7 @@ import {theme} from '../assets/constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {authLoad} from '../redux/actions/auth';
 import {Loading} from '../components/loading';
+import { addAge } from '../redux/actions/home';
 
 const DogAge = () => {
   const [years, setYears] = useState();
@@ -34,7 +35,7 @@ const DogAge = () => {
       console.log(raw);
       console.log(loginData);
       console.log('..................................................');
-      dispatch(addOwner(loginData, raw, onSuccess, onError));
+      dispatch(addAge(loginData, raw, onSuccess, onError));
     }
   };
 
