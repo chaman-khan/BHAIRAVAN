@@ -9,16 +9,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import EmojiSelector, {Categories} from 'react-native-emoji-selector';
+import EmojiPicker from 'rn-emoji-keyboard';
 
 const {width, height} = Dimensions.get('screen');
 
 const ChatDetail = ({navigation, route}) => {
   const {item} = route.params;
 
-  const [isEmojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [message, setMessage] = useState('');
-  const [isEmojiKeyboardVisible, setIsEmojiKeyboardVisible] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleSend = () => {
     // Implement your logic to send the message
@@ -26,18 +25,14 @@ const ChatDetail = ({navigation, route}) => {
     setMessage('');
   };
 
-  const toggleEmojiKeyboard = () => {
-    setIsEmojiKeyboardVisible(!isEmojiKeyboardVisible);
-    Keyboard.dismiss();
+  const toggleIsOPen = () => {
+    setIsOpen(!isOpen);
+    // Keyboard.dismiss();
   };
 
-  // const toggleEmojiPicker = () => {
-  //   setEmojiPickerVisible(!isEmojiPickerVisible);
-  // };
-
-  // const onEmojiSelected = emoji => {
-  //   setMessage(message + emoji);
-  // };
+  const onEmojiSelected = emoji => {
+    setMessage(prevMessage => prevMessage + String(emoji));
+  };
 
   const ProfileImage = () => {
     return (
@@ -110,7 +105,7 @@ const ChatDetail = ({navigation, route}) => {
             alignItems: 'center',
             justifyContent: 'space-evenly',
           }}>
-          <TouchableOpacity onPress={toggleEmojiKeyboard}>
+          <TouchableOpacity onPress={toggleIsOPen}>
             <Image source={require('../assets/images/emoji.png')} />
           </TouchableOpacity>
           <TextInput
@@ -118,19 +113,18 @@ const ChatDetail = ({navigation, route}) => {
             style={{width: '50%'}}
             value={message}
             onChangeText={txt => setMessage(txt)}
-            keyboardType={isEmojiKeyboardVisible ? 'numeric' : 'default'}
+            // keyboardType={isEmojiKeyboardVisible ? 'numeric' : 'default'}
           />
           <Image source={require('../assets/images/attach.png')} />
           <Image source={require('../assets/images/voice.png')} />
           <Image source={require('../assets/images/send.png')} />
         </View>
       </View>
-      {isEmojiPickerVisible && (
-        <EmojiSelector
+      {isOpen && (
+        <EmojiPicker
           onEmojiSelected={onEmojiSelected}
-          showSearchBar={false}
-          showSectionTitles={false}
-          category={Categories.all}
+          open={isOpen}
+          onClose={() => setIsOpen(false)} enableSearchBar
         />
       )}
     </View>
