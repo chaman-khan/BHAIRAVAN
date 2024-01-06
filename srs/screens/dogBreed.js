@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
   Alert,
+  Dimensions,
   Image,
   ScrollView,
   StyleSheet,
@@ -10,7 +11,11 @@ import {
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
-import { addBreed } from '../redux/actions/home';
+import {addBreed} from '../redux/actions/home';
+import {Loading} from '../components/loading';
+import {authLoad} from '../redux/actions/auth';
+
+const {height} = Dimensions.get('screen');
 
 const DogBreed = ({navigation}) => {
   const [mixedBreedSelected, setMixedBreedSelected] = useState(false);
@@ -44,7 +49,7 @@ const DogBreed = ({navigation}) => {
       console.log('..................................................');
       dispatch(addBreed(loginData, raw, onSuccess, onError));
     } else {
-      Alert.alert('Alert', 'Select Your Gender');
+      Alert.alert('Alert', 'Select Dog Breed');
     }
   };
 
@@ -181,6 +186,7 @@ const DogBreed = ({navigation}) => {
             />
           </View>
         </View>
+        <Loading visible={authLoading} />
       </ScrollView>
     </View>
   );
@@ -192,6 +198,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.yellow200,
     flex: 1,
     alignItems: 'center',
+    height: height,
   },
   back: {
     width: '90%',

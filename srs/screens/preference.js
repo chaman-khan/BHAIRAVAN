@@ -7,11 +7,15 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
-import { authLoad } from '../redux/actions/auth';
-import { Loading } from '../components/loading';
+import {authLoad} from '../redux/actions/auth';
+import {Loading} from '../components/loading';
+import { addPreference } from '../redux/actions/home';
+
+const {height} = Dimensions.get('screen');
 
 const Preference = ({navigation}) => {
   const [play, setPlay] = useState(false);
@@ -31,9 +35,9 @@ const Preference = ({navigation}) => {
       console.log(raw);
       console.log(loginData);
       console.log('..................................................');
-      dispatch(addOwner(loginData, raw, onSuccess, onError));
+      dispatch(addPreference(loginData, raw, onSuccess, onError));
     } else {
-      Alert.alert('Alert', 'Select Your Gender');
+      Alert.alert('Alert', 'Select Preference');
     }
   };
 
@@ -173,6 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.yellow200,
     flex: 1,
     alignItems: 'center',
+    height: height,
   },
   back: {
     width: '90%',
@@ -188,7 +193,7 @@ const styles = StyleSheet.create({
   mainTxt: {
     color: '#3A2A28',
     fontSize: 24,
-    fontWeigh: '700',
+    fontWeight: '700',
     fontFamily: 'Unbounded',
     marginVertical: 40,
   },

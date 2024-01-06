@@ -15,7 +15,7 @@ import {authLoad} from '../redux/actions/auth';
 import {Loading} from '../components/loading';
 import { addAge } from '../redux/actions/home';
 
-const DogAge = () => {
+const DogAge = ({navigation}) => {
   const [years, setYears] = useState();
   const [months, setMonths] = useState();
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const DogAge = () => {
 
   const handleAge = () => {
     if (!years || !months) {
-      Alert.alert('Alert', 'Give complete YOur Dog Age');
+      Alert.alert('Alert', 'Give complete Your Dog Age');
     } else {
       dispatch(authLoad(true));
 
@@ -80,13 +80,13 @@ const DogAge = () => {
         <View style={{flexDirection: 'row', marginTop: 120}}>
           <View style={{alignItems: 'center'}}>
             <View style={styles.inputView}>
-              <TextInput style={styles.input} />
+              <TextInput style={styles.input} value={years} onChangeText={txt => setYears(txt)} keyboardType='numeric'/>
             </View>
             <Text>Year (s)</Text>
           </View>
           <View style={{alignItems: 'center'}}>
             <View style={styles.inputView}>
-              <TextInput style={styles.input} />
+              <TextInput style={styles.input} value={months} onChangeText={txt => setMonths(txt)} keyboardType='numeric' />
             </View>
             <Text>Month (s)</Text>
           </View>

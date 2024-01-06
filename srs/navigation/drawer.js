@@ -13,6 +13,7 @@ import Matches from '../screens/matches';
 import Favourites from '../screens/favourites';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Chatstack from './chatStack';
+import Registration from '../screens/auth/registration';
 
 const Drawer = createDrawerNavigator();
 
@@ -124,6 +125,7 @@ export default function Drawere({navigation}) {
 
         <Drawer.Screen name="Matches" component={Matches} />
         <Drawer.Screen name="Favourites" component={Favourites} />
+        <Drawer.Screen name='Registration' component={Registration} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

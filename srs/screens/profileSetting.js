@@ -12,6 +12,9 @@ import {
 import {theme} from '../assets/constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
+import { updateProfile } from '../redux/actions/home';
+import { Loading } from '../components/loading';
+import { authLoad } from '../redux/actions/auth';
 
 const ProfileSetting = ({navigation}) => {
   const [name, setName] = useState('');
@@ -25,13 +28,13 @@ const ProfileSetting = ({navigation}) => {
     });
   };
 
-  const createBlobFromImage = async (imageUri) => {
+  const createBlobFromImage = async imageUri => {
     try {
       const response = await fetch(imageUri);
       const blob = await response.blob();
       return blob;
     } catch (error) {
-      console.error("Error creating Blob from image:", error);
+      console.error('Error creating Blob from image:', error);
       throw error;
     }
   };
@@ -45,16 +48,21 @@ const ProfileSetting = ({navigation}) => {
       dispatch(authLoad(true));
       const imageBlob = await createBlobFromImage(img);
 
+      console.log('===========================iiiiiiiiimage bLOBBBBBBBBBB=========');
+      console.log(imageBlob);
+      console.log('====================================');
+
       var raw = JSON.stringify({
         name: name,
         breed: breed,
-        image: imageBlob,
+        image: imageBlob._data.blobId,
       });
-      console.log('raw');
+      console.log('raw*************************************************************8');
       console.log(raw);
+      console.log('loggedIn*************************************************************8');
       console.log(loginData);
       console.log('..................................................');
-      dispatch(addOwner(loginData, raw, onSuccess, onError));
+      dispatch(updateProfile(loginData, raw, onSuccess, onError));
     }
   };
 
@@ -81,7 +89,9 @@ const ProfileSetting = ({navigation}) => {
   };
   const onError = err => {
     dispatch(authLoad(false));
+    console.log('err#################################################');
     console.log(err);
+    console.log('err$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
   };
 
   return (
@@ -124,9 +134,30 @@ const ProfileSetting = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={1}
             style={styles.input}
-            onPress={gallery}
-          />
+            onPress={gallery}>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginVertical: 10}}>
+              <View style={{width: '80%'}}>
+                {img && (
+                  <Image
+                    source={{uri: img}}
+                    style={{width: 100, height: 100}}
+                  />
+                )}
+              </View>
+              <Image
+                source={require('../assets/images/camera.png')}
+                tintColor={'black'}
+                style={{width: 25, height: 19, alignSelf: 'flex-end'}}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.btn} onPress={handleUpdate}>
+          <Text style={{color: '#3A2A28', fontWeight: '600', fontSize: 13}}>
+            Save
+          </Text>
+        </TouchableOpacity>
+        <Loading visible={authLoading} />
       </ScrollView>
     </View>
   );
@@ -187,6 +218,16 @@ const styles = StyleSheet.create({
   input: {
     borderBottomColor: 'rgba(0, 0, 0, 0.73)',
     borderBottomWidth: 1,
+  },
+  btn: {
+    height: 50,
+    width: '40%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#ECAC50',
+    borderRadius: 106,
+    marginTop: 50,
   },
 });
 

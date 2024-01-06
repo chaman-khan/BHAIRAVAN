@@ -9,13 +9,16 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Dimensions,
 } from 'react-native';
 import {Country} from 'country-state-city';
 import {theme} from '../../assets/constants/theme';
 import {Dropdown} from 'react-native-element-dropdown';
 import {useDispatch, useSelector} from 'react-redux';
 import {authLoad, registerUser} from '../../redux/actions/auth';
-import { Loading } from '../../components/loading';
+import {Loading} from '../../components/loading';
+
+const {height} = Dimensions.get('screen');
 
 const Registration = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -77,15 +80,14 @@ const Registration = ({navigation}) => {
     console.log('====================================');
     Alert.alert(
       val.status === true ? 'Success' : 'Error',
-      val.status === true
-        ? val.message
-        : val.message || val.message.message,
+      val.status === true ? val.message : val.message || val.message.message,
       [
         {
           text: 'OK',
           onPress: () => {
             console.log('OK Pressed');
-            val.status === true && navigation.navigate('Verify_Screen', {Number});
+            val.status === true &&
+              navigation.navigate('Verify_Screen', {Number});
           },
         },
       ],
@@ -278,6 +280,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F7DC9C',
     flex: 1,
     alignItems: 'center',
+    height: height,
   },
   logo: {
     marginTop: 40,

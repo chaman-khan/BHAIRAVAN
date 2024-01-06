@@ -216,7 +216,6 @@ export const addPreference = (token, data, handleSuccess, handleError) => {
         body: data,
         redirect: 'follow',
       };
-      console.log(requestOptions);
       console.log(`Bearer ${token.token}`);
       fetch(`${baseUrl}store-dog-preference`, requestOptions)
         .then(response => response.json())

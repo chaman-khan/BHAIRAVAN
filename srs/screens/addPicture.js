@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Dimensions,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -18,6 +19,9 @@ import {baseUrl} from '../constants/constant';
 import {useDispatch, useSelector} from 'react-redux';
 import {authLoad} from '../redux/actions/auth';
 import {addPictures} from '../redux/actions/home';
+import {Loading} from '../components/loading';
+
+const {height} = Dimensions.get('screen');
 
 const AddPicture = ({navigation}) => {
   const [source, setSource] = useState(null);
@@ -143,6 +147,7 @@ const AddPicture = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+        <Loading visible={authLoading} />
       </ScrollView>
     </View>
   );
@@ -153,6 +158,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.yellow200,
     flex: 1,
     alignItems: 'center',
+    height: height,
   },
   btn: {
     width: '85%',

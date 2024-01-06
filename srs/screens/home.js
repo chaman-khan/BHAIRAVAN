@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {theme} from '../assets/constants/theme';
+import {useDispatch} from 'react-redux';
+import {logout} from '../redux/actions/auth';
 const Home = ({navigation}) => {
   const [showSetting, setShowSetting] = useState(false);
   const [showLogOut, setShowLogOut] = useState(false);
@@ -21,6 +23,14 @@ const Home = ({navigation}) => {
       <Image source={require('../assets/images/arrowRight.png')} />
     </View>
   );
+
+  const dispatch = useDispatch();
+  const LogOUt = () => {
+    dispatch(logout());
+    setShowLogOut(false);
+    setShowSetting(false);
+    navigation.navigate('Registration');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -59,7 +69,7 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.touch}
-              onPress={() => setShowSetting(false)}>
+              onPress={() => setShowLogOut(true)}>
               <Image source={require('../assets/images/logout1.png')} />
               <Text style={styles.txt}>Log Out</Text>
             </TouchableOpacity>
@@ -72,7 +82,7 @@ const Home = ({navigation}) => {
                 <TouchableOpacity
                   style={styles.modelbtn}
                   activeOpacity={1}
-                  onPress={() => setShowSetting(false)}>
+                  onPress={() => setShowLogOut(false)}>
                   <Text style={{color: '#3A2A28', fontWeight: '600'}}>
                     cancel
                   </Text>
@@ -80,7 +90,7 @@ const Home = ({navigation}) => {
                 <TouchableOpacity
                   style={styles.modelbtn}
                   activeOpacity={1}
-                  onPress={() => setShowSetting(false)}>
+                  onPress={LogOUt}>
                   <Text style={{color: '#3A2A28', fontWeight: '600'}}>
                     log out
                   </Text>
@@ -227,12 +237,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   btns1: {
-    width: '100%',
-    height: 214,
+    width: '98%',
+    height: 208,
+    alignSelf: 'center',
     borderColor: '#3A2A28',
-    borderWidth: 4,
+    // borderWidth: 4,
     borderRadius: 12,
-    marginTop: -5,
+    marginTop: 25,
     backgroundColor: '#F7DC9C',
     justifyContent: 'space-evenly',
     position: 'absolute',

@@ -8,13 +8,17 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Dimensions,
 } from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {theme} from '../assets/constants/theme';
 import {authLoad} from '../redux/actions/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { addgender } from '../redux/actions/home';
+import {useDispatch, useSelector} from 'react-redux';
+import {addgender} from '../redux/actions/home';
+import {Loading} from '../components/loading';
+
+const {height} = Dimensions.get('screen');
 
 const DogGender = ({navigation}) => {
   const [male, setMale] = useState(false);
@@ -25,7 +29,7 @@ const DogGender = ({navigation}) => {
 
   const handleGender = () => {
     if (!male && !female) {
-      Alert.alert('Alert', 'Select Your Gender');
+      Alert.alert('Alert', 'Select Dogs Gender');
     } else {
       dispatch(authLoad(true));
 
@@ -138,6 +142,7 @@ const DogGender = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+        <Loading visible={authLoading} />
       </ScrollView>
     </View>
   );
@@ -149,6 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.yellow200,
     flex: 1,
     alignItems: 'center',
+    height: height,
   },
   btn: {
     width: '85%',
