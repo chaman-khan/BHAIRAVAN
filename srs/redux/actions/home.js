@@ -263,3 +263,34 @@ export const updateProfile = (token, data, handleSuccess, handleError) => {
     }
   };
 };
+export const getMatches = (token, data, handleSuccess, handleError) => {
+  return async dispatch => {
+    try {
+      console.log('token');
+      var myHeaders = new Headers();
+      myHeaders.append('Authorization', `Bearer ${token.token.token}`);
+      myHeaders.append('Content-Type', 'application/json');
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: data,
+        redirect: 'follow',
+      };
+      console.log(requestOptions);
+      console.log(`Bearer ${token.token}`);
+      fetch(`${baseUrl}get-matches-dog-list`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          handleSuccess(result);
+        })
+        .catch(error => {
+          handleError(error);
+        });
+    } catch (err) {
+      dispatch(authLoad(false));
+      console.log(err);
+      handleError(err);
+    }
+  };
+};
