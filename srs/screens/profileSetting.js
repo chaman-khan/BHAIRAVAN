@@ -12,20 +12,32 @@ import {
 import {theme} from '../assets/constants/theme';
 import {useDispatch, useSelector} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
-import { updateProfile } from '../redux/actions/home';
-import { Loading } from '../components/loading';
-import { authLoad } from '../redux/actions/auth';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {updateProfile} from '../redux/actions/home';
+import {Loading} from '../components/loading';
+import {authLoad} from '../redux/actions/auth';
 
 const ProfileSetting = ({navigation}) => {
   const [name, setName] = useState('');
   const [breed, setBreed] = useState('');
   const [img, setImg] = useState(null);
 
-  const gallery = () => {
-    ImagePicker.openPicker({}).then(images => {
-      console.log(images);
-      setImg(images.path);
-    });
+  const options = {
+    title: 'Select Image',
+    type: 'library',
+    options: {
+      maxHeight: 200,
+      maxWidth: 200,
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    },
+  };
+
+  const gallery = async () => {
+    const images = await launchImageLibrary(options);
+    console.log(images.assets);
+    setImg(images.assets[0].uri);
   };
 
   const createBlobFromImage = async imageUri => {
@@ -48,7 +60,9 @@ const ProfileSetting = ({navigation}) => {
       dispatch(authLoad(true));
       const imageBlob = await createBlobFromImage(img);
 
-      console.log('===========================iiiiiiiiimage bLOBBBBBBBBBB=========');
+      console.log(
+        '===========================iiiiiiiiimage bLOBBBBBBBBBB=========',
+      );
       console.log(imageBlob);
       console.log('====================================');
 
@@ -57,9 +71,13 @@ const ProfileSetting = ({navigation}) => {
         breed: breed,
         image: imageBlob._data.blobId,
       });
-      console.log('raw*************************************************************8');
+      console.log(
+        'raw*************************************************************8',
+      );
       console.log(raw);
-      console.log('loggedIn*************************************************************8');
+      console.log(
+        'loggedIn*************************************************************8',
+      );
       console.log(loginData);
       console.log('..................................................');
       dispatch(updateProfile(loginData, raw, onSuccess, onError));
@@ -135,7 +153,13 @@ const ProfileSetting = ({navigation}) => {
             activeOpacity={1}
             style={styles.input}
             onPress={gallery}>
-            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-between', marginVertical: 10}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+                marginVertical: 10,
+              }}>
               <View style={{width: '80%'}}>
                 {img && (
                   <Image

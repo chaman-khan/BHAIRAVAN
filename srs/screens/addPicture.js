@@ -14,7 +14,7 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {RootStackScreenProps} from '../common/types';
 import {theme} from '../assets/constants/theme';
-import ImagePicker from 'react-native-image-crop-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {baseUrl} from '../constants/constant';
 import {useDispatch, useSelector} from 'react-redux';
 import {authLoad} from '../redux/actions/auth';
@@ -26,19 +26,37 @@ const {height} = Dimensions.get('screen');
 const AddPicture = ({navigation}) => {
   const [source, setSource] = useState(null);
   const [source1, setSource1] = useState(null);
+  const [type, setType] = useState(null);
+  const [type1, setType1] = useState(null);
+  const [fileName, setFileName] = useState(null);
+  const [fileName1, setFileName1] = useState(null);
   const dispatch = useDispatch();
   const {authLoading, loginData} = useSelector(state => state.auth);
-  const gallery = () => {
-    ImagePicker.openPicker({}).then(images => {
-      console.log(images);
-      setSource(images.path);
-    });
+  const options = {
+    title: 'Select Image',
+    type: 'library',
+    options: {
+      maxHeight: 200,
+      maxWidth: 200,
+      selectionLimit: 1,
+      mediaType: 'photo',
+      includeBase64: false,
+    },
   };
-  const gallery1 = () => {
-    ImagePicker.openPicker({}).then(images => {
-      console.log(images);
-      setSource1(images.path);
-    });
+
+  const gallery = async () => {
+    const images = await launchImageLibrary(options);
+    console.log(images.assets);
+    setSource(images.assets[0].uri);
+    setFileName(images.assets[0].fileName);
+    setType(images.assets[0].type);
+  };
+  const gallery1 = async () => {
+    const images = await launchImageLibrary(options);
+    console.log(images.assets);
+    setSource1(images.assets[0].uri);
+    setFileName1(images.assets[0].fileName);
+    setType1(images.assets[0].type);
   };
 
   const uploadImages = async () => {
@@ -52,16 +70,16 @@ const AddPicture = ({navigation}) => {
       if (source) {
         formData.append('owner_image', {
           uri: source,
-          type: 'image/jpeg', // Adjust type based on your image format
-          name: 'owner_image.jpg', // Adjust the filename as needed
+          type: type, // Adjust type based on your image format
+          name: fileName, // Adjust the filename as needed
         });
       }
 
       if (source1) {
         formData.append('dog_image', {
           uri: source1,
-          type: 'image/jpeg', // Adjust type based on your image format
-          name: 'dog_image.jpg', // Adjust the filename as needed
+          type: type1, // Adjust type based on your image format
+          name: fileName1, // Adjust the filename as needed
         });
       }
       dispatch(addPictures(loginData, formData, onSuccess, onError));
@@ -152,7 +170,6 @@ const AddPicture = ({navigation}) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.yellow200,
