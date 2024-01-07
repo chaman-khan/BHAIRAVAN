@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
   Dimensions,
@@ -10,9 +10,15 @@ import {
   View,
 } from 'react-native';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {getMatches} from '../redux/actions/home';
 const {width, height} = Dimensions.get('screen');
 const Matches = ({navigation}) => {
-  const DATA = [
+  const [DATA, setDATA] = useState([]);
+
+  const dispatch = useDispatch();
+  const {authLoading, loginData} = useSelector(state => state.auth);
+  const DATAA = [
     {
       id: 1,
       image: require('../assets/images/image1.png'),
@@ -71,6 +77,40 @@ const Matches = ({navigation}) => {
     },
   ];
 
+  const handleData = async () => {
+    if (!source || !source1) {
+      Alert.alert('Alert', 'Select both images');
+    } else {
+      dispatch(authLoad(true));
+    }
+    dispatch(getMatches(loginData, formData, onSuccess, onError));
+  };
+
+  const onSuccess = val => {
+    dispatch(authLoad(false));
+
+    console.log('====================================');
+    console.log(val);
+    console.log('====================================');
+    Alert.alert(
+      val.status === true ? 'Success' : 'Error',
+      val.status === true ? val.message : val.message || val.message.message,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('OK Pressed');
+            val.status === true && navigation.navigate('DogAge');
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+  const onError = err => {
+    dispatch(authLoad(false));
+    console.log(err);
+  };
   const handleSwipe = (event, item) => {
     if (event.nativeEvent.state === State.END) {
       if (event.nativeEvent.translationX > 0) {
@@ -86,8 +126,7 @@ const Matches = ({navigation}) => {
   const renderItem = ({item}) => {
     return (
       <PanGestureHandler
-        onHandlerStateChange={(event) => handleSwipe(event, item)}
-      >
+        onHandlerStateChange={event => handleSwipe(event, item)}>
         <View style={styles.item}>
           <Image
             source={item.image}
@@ -129,7 +168,7 @@ const Matches = ({navigation}) => {
       </View>
       <View style={{height: height / 1.5}}>
         <FlatList
-          data={DATA}
+          data={DATAA}
           keyExtractor={item => item.id}
           numColumns={2}
           renderItem={renderItem}
