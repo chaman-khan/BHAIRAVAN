@@ -12,6 +12,7 @@ import {
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMatches} from '../redux/actions/home';
+import {authLoad} from '../redux/actions/auth';
 const {width, height} = Dimensions.get('screen');
 const Matches = ({navigation}) => {
   const [DATA, setDATA] = useState([]);
@@ -78,7 +79,7 @@ const Matches = ({navigation}) => {
   ];
 
   const handleData = async () => {
-    
+    dispatch(authLoad(true));
     dispatch(getMatches(loginData, formData, onSuccess, onError));
   };
 
