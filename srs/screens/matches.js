@@ -78,11 +78,7 @@ const Matches = ({navigation}) => {
   ];
 
   const handleData = async () => {
-    if (!source || !source1) {
-      Alert.alert('Alert', 'Select both images');
-    } else {
-      dispatch(authLoad(true));
-    }
+    
     dispatch(getMatches(loginData, formData, onSuccess, onError));
   };
 
