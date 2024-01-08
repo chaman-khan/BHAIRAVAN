@@ -263,7 +263,7 @@ export const updateProfile = (token, data, handleSuccess, handleError) => {
     }
   };
 };
-export const getMatches = (token, data, handleSuccess, handleError) => {
+export const getMatches = (token, handleSuccess, handleError) => {
   return async dispatch => {
     try {
       console.log('token');

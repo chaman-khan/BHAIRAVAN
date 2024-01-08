@@ -80,7 +80,7 @@ const Matches = ({navigation}) => {
 
   const handleData = async () => {
     dispatch(authLoad(true));
-    dispatch(getMatches(loginData, formData, onSuccess, onError));
+    dispatch(getMatches(loginData, onSuccess, onError));
   };
 
   const onSuccess = val => {
